@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// A L(Login)S(SignUp)TextField
 class LSTextField extends HookWidget {
   final String? label;
   final String placeholder;
@@ -20,7 +21,7 @@ class LSTextField extends HookWidget {
                   style: GoogleFonts.manrope(textStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16)),
                   label!,
                 ))
-            : Text(""), // Replace with something whose size is 0
+            : const SizedBox.shrink(), // Replace with something whose size is 0
         Container(
           padding: const EdgeInsets.only(top: 4),
           child: TextField(

@@ -30,37 +30,50 @@ class SignupLogin extends HookWidget {
       // make use of viewmode's call here
     }
 
-    void onSignUpClick() {}
+    void onSignUpClick(SignUpData? signUpData) {}
 
     void onLoginClick(String email, String password) {}
 
-    return Scaffold(
-      backgroundColor: Colors.white, // change with theme
-      resizeToAvoidBottomInset: true,
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.only(top: 66),
-          alignment: Alignment.center,
-          width: 320,
-          child: Column(
-            children: [
-              const Logo(
-                height: 110,
-                width: 136,
-              ),
-              Expanded(
-                child: TabBarView(
-                  controller: tabController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    LoginFragment(
-                        onWantToSignUpClick: onWantToSignUpClick, onForgotPasswordClick: onForgotPasswordClick, onLoginClick: onLoginClick),
-                    SignUpFragment(onSignUpClick: onSignUpClick, onWantToLoginClick: onWantToLoginClick),
-                    ForgotPasswordFragment(onSignUpClick: onSignUpClick, onWantToLoginClick: onWantToLoginClick)
-                  ],
+    Future<bool> onWillPop() async {
+      if (tabController.index == 1 || tabController.index == 2) {
+        onWantToLoginClick();
+        return false;
+      }
+      return true;
+    }
+
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
+        backgroundColor: Colors.white, // change with theme
+        resizeToAvoidBottomInset: true,
+        body: Center(
+          child: Container(
+            margin: const EdgeInsets.only(top: 66),
+            alignment: Alignment.center,
+            width: 320,
+            child: Column(
+              children: [
+                const Logo(
+                  height: 110,
+                  width: 136,
                 ),
-              ),
-            ],
+                Expanded(
+                  child: TabBarView(
+                    controller: tabController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      LoginFragment(
+                          onWantToSignUpClick: onWantToSignUpClick,
+                          onForgotPasswordClick: onForgotPasswordClick,
+                          onLoginClick: onLoginClick),
+                      SignUpFragment(onSignUpClick: onSignUpClick, onWantToLoginClick: onWantToLoginClick),
+                      ForgotPasswordFragment(onSignUpClick: () {}, onWantToLoginClick: onWantToLoginClick)
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

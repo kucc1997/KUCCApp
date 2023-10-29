@@ -7,7 +7,7 @@ GoRouter goRouter = GoRouter(routes: [
       name: "signuplogin",
       path: "/",
       builder: (BuildContext context, GoRouterState state) {
-        return SignupLogin();
+        return const SignupLogin();
       },
       routes: [
         GoRoute(

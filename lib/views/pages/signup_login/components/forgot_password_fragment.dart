@@ -16,17 +16,24 @@ class ForgotPasswordFragment extends HookWidget {
 
     return Column(
       children: [
-        LinearProgressIndicator(
-          color: const Color(0xFF1D7000),
-          backgroundColor: Colors.transparent,
-          value: progressValue.value,
+        const Padding(padding: EdgeInsets.only(top: 18)),
+        Container(
+          decoration: BoxDecoration(border: Border.all(color: Color(0xFF979797), width: 1), borderRadius: BorderRadius.circular(8)),
+          child: LinearProgressIndicator(
+            borderRadius: BorderRadius.circular(8),
+            color: const Color(0xFF1D7000),
+            backgroundColor: Colors.transparent,
+            value: progressValue.value,
+            minHeight: 8,
+          ),
         ),
         Expanded(
           child: TabBarView(
             controller: tabController,
-            //physics: const NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: [
-              const Text("alfja"),
+              RegisteredEmailForgotPasswordSubFragment(),
+              OTPVerificationForgotPasswordSubFragment(),
               const Text("xyz"),
               const Text("mma"),
             ],
@@ -37,7 +44,14 @@ class ForgotPasswordFragment extends HookWidget {
   }
 }
 
-class OTPVerificationSubFragment extends HookWidget {
+class RegisteredEmailForgotPasswordSubFragment extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text("lajdf");
+  }
+}
+
+class OTPVerificationForgotPasswordSubFragment extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Text("lajdf");

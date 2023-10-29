@@ -5,6 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kucc_app/views/pages/signup_login/components/login_singup_button.dart';
 import 'package:kucc_app/views/pages/signup_login/components/login_singup_textfield.dart';
 
+/// the login data of the user
+class LoginData {
+  final String username;
+  final String password;
+
+  LoginData({required this.username, required this.password});
+}
+
 class LSCheckbox extends HookWidget {
   final bool value;
   final Function(bool) onChange;
@@ -14,7 +22,7 @@ class LSCheckbox extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _value = useState(value);
+    final current = useState(value);
 
     return Row(
       children: [
@@ -26,9 +34,9 @@ class LSCheckbox extends HookWidget {
             width: 18.0,
             child: Checkbox(
               side: const BorderSide(color: Colors.transparent),
-              value: _value.value,
+              value: current.value,
               onChanged: (v) {
-                _value.value = v!;
+                current.value = v!;
                 onChange(v);
               },
               checkColor: const Color(0xFF000C14),
