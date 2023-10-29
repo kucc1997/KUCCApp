@@ -49,67 +49,78 @@ class LoginFragment extends HookWidget {
   final void Function() onWantToSignUpClick;
   final void Function() onForgotPasswordClick;
   final void Function(String, String) onLoginClick;
+  double? availableHeight;
 
-  const LoginFragment({super.key, required this.onWantToSignUpClick, required this.onForgotPasswordClick, required this.onLoginClick});
+  LoginFragment({super.key, required this.onWantToSignUpClick, required this.onForgotPasswordClick, required this.onLoginClick});
 
   @override
   Widget build(BuildContext context) {
     final rememberMe = useState(true);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          children: [
-            const Padding(padding: EdgeInsets.only(top: 28)),
-            Text("Hi, Welcome Back!👋",
-                // Make use of textStyle: Theme.of(context).textTheme.displayLarge,
-                style: GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold))),
-            const Padding(padding: EdgeInsets.only(top: 28)),
-            const LSTextField(
-              label: "Email",
-              placeholder: "example@gmail.com",
-            ),
-            const Padding(padding: EdgeInsets.only(top: 18)),
-            const LSTextField(
-              label: "Password",
-              placeholder: "Enter your password",
-            ),
-            const Padding(padding: EdgeInsets.only(top: 18)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                LSCheckbox(
-                  value: rememberMe.value,
-                  onChange: (v) => rememberMe.value = v,
-                  trailingWidget: const Text(
-                    "Remember Me",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+
+    return LayoutBuilder(builder: (context, constraints) {
+      availableHeight ??= constraints.maxHeight;
+
+      return SingleChildScrollView(
+        child: Container(
+          constraints: BoxConstraints(minHeight: availableHeight!),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  const Padding(padding: EdgeInsets.only(top: 28)),
+                  Text("Hi, Welcome Back!👋",
+                      // Make use of textStyle: Theme.of(context).textTheme.displayLarge,
+                      style: GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold))),
+                  const Padding(padding: EdgeInsets.only(top: 28)),
+                  const LSTextField(
+                    label: "Email",
+                    placeholder: "example@gmail.com",
                   ),
-                ),
-                InkWell(
-                  onTap: onForgotPasswordClick,
-                  child: const Text(
-                    "Forgot Password?",
-                    style: TextStyle(color: Color(0xFFE86969)),
+                  const Padding(padding: EdgeInsets.only(top: 18)),
+                  const LSTextField(
+                    label: "Password",
+                    placeholder: "Enter your password",
                   ),
-                ),
-              ],
-            ),
-            const Padding(padding: EdgeInsets.only(top: 18)),
-            LSButton(
-              onTap: () {
-                onLoginClick("email", "password");
-              },
-              child: const Text(
-                "Login",
-                style: TextStyle(color: Colors.white),
+                  const Padding(padding: EdgeInsets.only(top: 18)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      LSCheckbox(
+                        value: rememberMe.value,
+                        onChange: (v) => rememberMe.value = v,
+                        trailingWidget: const Text(
+                          "Remember Me",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: onForgotPasswordClick,
+                        child: const Text(
+                          "Forgot Password?",
+                          style: TextStyle(color: Color(0xFFE86969)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Padding(padding: EdgeInsets.only(top: 18)),
+                  LSButton(
+                    onTap: () {
+                      onLoginClick("email", "password");
+                    },
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
               ),
-            )
-          ],
+              WantToSignUp(onWantToSignUpClick: onWantToSignUpClick)
+            ],
+          ),
         ),
-        WantToSignUp(onWantToSignUpClick: onWantToSignUpClick)
-      ],
-    );
+      );
+    });
   }
 }
 
@@ -121,7 +132,7 @@ class WantToSignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

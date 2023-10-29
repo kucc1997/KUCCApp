@@ -36,6 +36,7 @@ class SignupLogin extends HookWidget {
 
     return Scaffold(
       backgroundColor: Colors.white, // change with theme
+      resizeToAvoidBottomInset: true,
       body: Center(
         child: Container(
           margin: const EdgeInsets.only(top: 66),

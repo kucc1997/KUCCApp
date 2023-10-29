@@ -25,17 +25,17 @@ class LSTextField extends HookWidget {
           padding: const EdgeInsets.only(top: 4),
           child: TextField(
             decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(color: Colors.blue),
-              ),
-              hintText: placeholder,
-              hintStyle: GoogleFonts.manrope(textStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
-            ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFF394078)),
+                ),
+                hintText: placeholder,
+                hintStyle: GoogleFonts.manrope(textStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
+                contentPadding: const EdgeInsets.all(12)),
           ),
         ),
       ],
