@@ -1,12 +1,13 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:kucc_app/views/pages/signup_login/signup_login.dart';
 
 GoRouter goRouter = GoRouter(routes: [
   GoRoute(
-      name: "home",
+      name: "signuplogin",
       path: "/",
       builder: (BuildContext context, GoRouterState state) {
-        return const Text("");
+        return SignupLogin();
       },
       routes: [
         GoRoute(
