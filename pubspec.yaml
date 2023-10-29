@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   go_router: ^12.0.1
   flutter_hooks: ^0.20.3
+  provider: ^6.0.5
+  google_fonts: ^6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -49,7 +51,6 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   permission_handler: ^10.2.0
-  provider: ^6.0.5
   sqflite: ^2.3.0
   fluttertoast: ^8.2.2
 # For information on the generic Dart part of this file, see the

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:kucc_app/routes.dart';
+import 'package:kucc_app/viewmodels/signup_login_viewmodel.dart';
+import 'package:provider/provider.dart';
 
-const APP_NAME = "KUCC";
+const appName = "KUCC";
 
 void main() {
-  runApp(const MyApp());
+  SignupLoginViewModel signupLoginViewModel = SignupLoginViewModel();
+
+  runApp(
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => signupLoginViewModel),
+    ], child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: APP_NAME,
+      title: appName,
       debugShowCheckedModeBanner: false,
       routerConfig: goRouter,
       //theme: ThemeData(
