@@ -1,5 +1,6 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kucc_app/views/pages/signup_login/components/login_singup_button.dart';
 import 'package:kucc_app/views/pages/signup_login/components/login_singup_textfield.dart';
 
@@ -18,7 +19,8 @@ class ForgotPasswordFragment extends HookWidget {
       children: [
         const Padding(padding: EdgeInsets.only(top: 18)),
         Container(
-          decoration: BoxDecoration(border: Border.all(color: Color(0xFF979797), width: 1), borderRadius: BorderRadius.circular(8)),
+          decoration: BoxDecoration(
+              border: Border.all(color: Color(0xFF979797), width: 1), borderRadius: BorderRadius.circular(8)),
           child: LinearProgressIndicator(
             borderRadius: BorderRadius.circular(8),
             color: const Color(0xFF1D7000),
@@ -32,8 +34,8 @@ class ForgotPasswordFragment extends HookWidget {
             controller: tabController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              RegisteredEmailForgotPasswordSubFragment(),
               OTPVerificationForgotPasswordSubFragment(),
+              RegisteredEmailForgotPasswordSubFragment(),
               const Text("xyz"),
               const Text("mma"),
             ],
@@ -47,13 +49,60 @@ class ForgotPasswordFragment extends HookWidget {
 class RegisteredEmailForgotPasswordSubFragment extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    return Text("lajdf");
+    final registeredEmail = useState("");
+
+    return Column(children: [
+      const Padding(padding: EdgeInsets.only(top: 28)),
+      Text("Forgot Password",
+          style: GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold))),
+      const Padding(padding: EdgeInsets.only(top: 4)),
+      Text("Don't worry! it happens",
+          style: GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
+      Text("We'll send you an OTP in this email",
+          style: GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
+      const Padding(padding: EdgeInsets.only(top: 28)),
+      LSTextField(
+        onChanged: (v) => registeredEmail.value = v,
+        placeholder: "Enter your registered email",
+      ),
+      const Padding(padding: EdgeInsets.only(top: 18)),
+      LSButton(
+        isEnabled: true,
+        onTap: () {},
+        child: const Text(
+          "Continue",
+          style: TextStyle(color: Colors.white),
+        ),
+      )
+    ]);
   }
 }
 
 class OTPVerificationForgotPasswordSubFragment extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    return Text("lajdf");
+    return Column(children: [
+      const Padding(padding: EdgeInsets.only(top: 28)),
+      Text("OTP Verification",
+          style: GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold))),
+      const Padding(padding: EdgeInsets.only(top: 4)),
+      Text("Please enter for digit OTP we sent to",
+          style: GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
+      Text("r******1@gmail.com",
+          style: GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
+      const Padding(padding: EdgeInsets.only(top: 28)),
+      //LSTextField(
+      //  onChanged: (v) => registeredEmail.value = v,
+      //  placeholder: "Enter your registered email",
+      //),
+      //const Padding(padding: EdgeInsets.only(top: 18)),
+      //LSButton(
+      //  onTap: () {},
+      //  child: const Text(
+      //    "Continue",
+      //    style: TextStyle(color: Colors.white),
+      //  ),
+      //)
+    ]);
   }
 }

@@ -6,8 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 class LSTextField extends HookWidget {
   final String? label;
   final String placeholder;
+  final void Function(String) onChanged;
 
-  const LSTextField({super.key, this.label, required this.placeholder});
+  const LSTextField({super.key, this.label, required this.placeholder, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class LSTextField extends HookWidget {
         Container(
           padding: const EdgeInsets.only(top: 4),
           child: TextField(
+            onChanged: onChanged,
             decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),

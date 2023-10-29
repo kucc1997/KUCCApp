@@ -6,30 +6,33 @@ import 'package:kucc_app/views/pages/signup_login/components/forgot_password_fra
 import 'package:kucc_app/views/pages/signup_login/components/login_fragment.dart';
 import 'package:kucc_app/views/pages/signup_login/components/logo.dart';
 import 'package:kucc_app/views/pages/signup_login/components/signup_fragment.dart';
+import 'package:provider/provider.dart';
 
-class SignupLogin extends HookWidget {
-  const SignupLogin({super.key});
+class LoginSignUp extends HookWidget {
+  const LoginSignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //final SignupLoginViewModel signupLoginViewModel = Provider.of<SignupLoginViewModel>(context);
+    final SignupLoginViewModel slViewModel = Provider.of<SignupLoginViewModel>(context);
     final tabController = useTabController(initialLength: 3);
 
     void onWantToLogin() {
-      tabController.index = 0;
+      if (slViewModel.canGoToSignUpOrLogin) {
+        tabController.index = 0;
+      }
     }
 
     void onWantToSignUp() {
-      tabController.index = 1;
+      if (slViewModel.canGoToSignUpOrLogin) {
+        tabController.index = 1;
+      }
     }
 
     void onForgotPassword() {
-      tabController.index = 2;
+      if (slViewModel.canGoToSignUpOrLogin) {
+        tabController.index = 2;
+      }
     }
-
-    Future<void> onSignUpClick(SignUpData? signUpData) async {}
-
-    Future<void> onLoginClick(LoginData loginData) async {}
 
     Future<bool> onWillPop() async {
       if (tabController.index == 1 || tabController.index == 2) {
@@ -61,12 +64,10 @@ class SignupLogin extends HookWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       LoginFragment(
-                          onWantToSignUpClick: onWantToSignUp,
-                          onForgotPasswordClick: onForgotPassword,
-                          onLoginClick: onLoginClick),
-                      SignUpFragment(
-                          onSignUpClick: onSignUpClick, //
-                          onWantToLoginClick: onWantToLogin),
+                        onWantToSignUpClick: onWantToSignUp,
+                        onForgotPasswordClick: onForgotPassword,
+                      ),
+                      SignUpFragment(onWantToLoginClick: onWantToLogin),
                       ForgotPasswordFragment(
                           onSignUpClick: () {}, //
                           onWantToLoginClick: onWantToLogin)

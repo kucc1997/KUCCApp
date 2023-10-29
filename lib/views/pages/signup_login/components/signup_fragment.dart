@@ -15,20 +15,26 @@ class SignUpData {
 }
 
 class SignUpFragment extends HookWidget {
-  final void Function(SignUpData?) onSignUpClick; // nullabe just for debugging
   final void Function() onWantToLoginClick;
   double? availableHeight;
 
-  SignUpFragment({super.key, required this.onSignUpClick, required this.onWantToLoginClick});
+  SignUpFragment({super.key, required this.onWantToLoginClick});
 
   @override
   Widget build(BuildContext context) {
+    final fullName = useState("");
+    final email = useState("");
+    final phoneNumber = useState("");
+    final password = useState("");
+
     return LayoutBuilder(builder: (context, constraints) {
       availableHeight ??= constraints.maxHeight;
 
       return SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         child: Container(
-          constraints: BoxConstraints(minHeight: availableHeight!),
+          constraints: BoxConstraints(
+              minHeight: availableHeight! < constraints.maxHeight ? constraints.minHeight + 500 : availableHeight!),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -37,31 +43,36 @@ class SignUpFragment extends HookWidget {
                   const Padding(padding: EdgeInsets.only(top: 28)),
                   // Make use of textStyle: Theme.of(context).textTheme.displayLarge,
                   Text("Create an Account",
-                      style: GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold))),
+                      style:
+                          GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold))),
                   const Padding(padding: EdgeInsets.only(top: 4)),
                   Text("Connect with your friends today!",
-                      style: GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
+                      style:
+                          GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
                   const Padding(padding: EdgeInsets.only(top: 28)),
-                  const LSTextField(
+                  LSTextField(
+                    onChanged: (v) => fullName.value = v,
                     placeholder: "Enter your full name",
                   ),
-                  const LSTextField(
+                  const Padding(padding: EdgeInsets.only(top: 12)),
+                  LSTextField(
+                    onChanged: (v) => email.value = v,
                     placeholder: "Enter your email",
                   ),
-                  const LSTextField(
+                  const Padding(padding: EdgeInsets.only(top: 12)),
+                  LSTextField(
+                    onChanged: (v) => phoneNumber.value = v,
                     placeholder: "Enter your phone number",
                   ),
-                  const LSTextField(
+                  const Padding(padding: EdgeInsets.only(top: 12)),
+                  LSTextField(
+                    onChanged: (v) => password.value = v,
                     placeholder: "Enter your password",
-                  ),
-                  const LSTextField(
-                    placeholder: "Confirm your password",
                   ),
                   const Padding(padding: EdgeInsets.only(top: 18)),
                   LSButton(
-                    onTap: () {
-                      onSignUpClick(null);
-                    },
+                    isEnabled: true,
+                    onTap: () {},
                     child: const Text(
                       "Sign Up",
                       style: TextStyle(color: Colors.white),

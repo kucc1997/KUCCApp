@@ -1,76 +1,84 @@
-import 'package:flutter/src/widgets/framework.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kucc_app/models/model/login_data.dart';
+import 'package:kucc_app/viewmodels/signup_login_viewmodel.dart';
+import 'package:kucc_app/views/pages/signup_login/components/login_signup_checkbox.dart';
 import 'package:kucc_app/views/pages/signup_login/components/login_singup_button.dart';
 import 'package:kucc_app/views/pages/signup_login/components/login_singup_textfield.dart';
-
-/// the login data of the user
-class LoginData {
-  final String username;
-  final String password;
-
-  LoginData({required this.username, required this.password});
-}
-
-class LSCheckbox extends HookWidget {
-  final bool value;
-  final Function(bool) onChange;
-  final Widget trailingWidget;
-
-  const LSCheckbox({super.key, required this.value, required this.onChange, required this.trailingWidget});
-
-  @override
-  Widget build(BuildContext context) {
-    final current = useState(value);
-
-    return Row(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0), border: Border.all(color: Color(0xFFCDD1E0), width: 2)),
-          child: SizedBox(
-            height: 18.0,
-            width: 18.0,
-            child: Checkbox(
-              side: const BorderSide(color: Colors.transparent),
-              value: current.value,
-              onChanged: (v) {
-                current.value = v!;
-                onChange(v);
-              },
-              checkColor: const Color(0xFF000C14),
-              activeColor: Colors.transparent,
-            ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.only(left: 8),
-          child: trailingWidget,
-        )
-      ],
-    );
-  }
-}
+import 'package:provider/provider.dart';
 
 class LoginFragment extends HookWidget {
   final void Function() onWantToSignUpClick;
   final void Function() onForgotPasswordClick;
-  final void Function(String, String) onLoginClick;
-  double? availableHeight;
 
-  LoginFragment({super.key, required this.onWantToSignUpClick, required this.onForgotPasswordClick, required this.onLoginClick});
+  double? _availableHeight;
+
+  LoginFragment({
+    super.key,
+    required this.onWantToSignUpClick,
+    required this.onForgotPasswordClick, //
+  });
 
   @override
   Widget build(BuildContext context) {
+    final SignupLoginViewModel slViewModel = Provider.of<SignupLoginViewModel>(context);
+
+    final textWidgetLoginChild = Text(
+      "Login",
+      style: GoogleFonts.manrope(
+        textStyle: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+          fontSize: 16,
+        ),
+      ),
+    );
+    const circularWidgetLoginChild = SizedBox(
+      height: 18,
+      width: 18,
+      child: CircularProgressIndicator(
+        color: Colors.white,
+        strokeWidth: 3,
+      ),
+    );
+
     final rememberMe = useState(true);
+    final email = useState("");
+    final password = useState("");
+
+    final loginButtonEnabled = useState(true);
+    final loginButtonChildWidget = useState<Widget>(textWidgetLoginChild);
+
+    void goToHome(BuildContext context) {
+      context.go("/home");
+    }
+
+    Future<void> onLoginClick() async {
+      LoginData loginData = LoginData(email: email.value, password: password.value, rememberUser: rememberMe.value);
+      loginButtonEnabled.value = false;
+      loginButtonChildWidget.value = circularWidgetLoginChild;
+
+      try {
+        await slViewModel.loginUser(loginData);
+        loginButtonEnabled.value = true;
+        loginButtonChildWidget.value = textWidgetLoginChild;
+        goToHome(context);
+      } catch (e) {
+        loginButtonEnabled.value = false;
+        loginButtonChildWidget.value = textWidgetLoginChild;
+      }
+    }
 
     return LayoutBuilder(builder: (context, constraints) {
-      availableHeight ??= constraints.maxHeight;
+      _availableHeight ??= constraints.maxHeight;
 
       return SingleChildScrollView(
         child: Container(
-          constraints: BoxConstraints(minHeight: availableHeight!),
+          constraints: BoxConstraints(minHeight: _availableHeight!),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -79,16 +87,19 @@ class LoginFragment extends HookWidget {
                   const Padding(padding: EdgeInsets.only(top: 28)),
                   Text("Hi, Welcome Back!👋",
                       // Make use of textStyle: Theme.of(context).textTheme.displayLarge,
-                      style: GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold))),
+                      style:
+                          GoogleFonts.manrope(textStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold))),
                   const Padding(padding: EdgeInsets.only(top: 28)),
-                  const LSTextField(
+                  LSTextField(
                     label: "Email",
                     placeholder: "example@gmail.com",
+                    onChanged: (v) => email.value = v,
                   ),
-                  const Padding(padding: EdgeInsets.only(top: 18)),
-                  const LSTextField(
+                  const Padding(padding: EdgeInsets.only(top: 12)),
+                  LSTextField(
                     label: "Password",
                     placeholder: "Enter your password",
+                    onChanged: (v) => password.value = v,
                   ),
                   const Padding(padding: EdgeInsets.only(top: 18)),
                   Row(
@@ -113,14 +124,7 @@ class LoginFragment extends HookWidget {
                   ),
                   const Padding(padding: EdgeInsets.only(top: 18)),
                   LSButton(
-                    onTap: () {
-                      onLoginClick("email", "password");
-                    },
-                    child: const Text(
-                      "Login",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
+                      onTap: onLoginClick, isEnabled: loginButtonEnabled.value, child: loginButtonChildWidget.value)
                 ],
               ),
               WantToSignUp(onWantToSignUpClick: onWantToSignUpClick)
@@ -144,16 +148,10 @@ class WantToSignUp extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            "Dont have an account? ",
-            style: TextStyle(fontSize: 18),
-          ),
+          const Text("Dont have an account? ", style: TextStyle(fontSize: 18)),
           InkWell(
             onTap: onWantToSignUpClick,
-            child: const Text(
-              "Sign Up",
-              style: TextStyle(color: Color(0xFF2F89FC), fontSize: 18),
-            ),
+            child: const Text("Sign Up", style: TextStyle(color: Color(0xFF2F89FC), fontSize: 18)),
           ),
         ],
       ),

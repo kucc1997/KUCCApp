@@ -5,8 +5,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 class LSButton extends HookWidget {
   final Widget child;
   final void Function()? onTap;
+  final bool isEnabled;
 
-  const LSButton({super.key, required this.child, required this.onTap});
+  const LSButton({super.key, required this.child, required this.onTap, required this.isEnabled});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class LSButton extends HookWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: onTap,
+          onTap: isEnabled ? onTap : null,
           child: Container(
             padding: const EdgeInsets.all(16.0), // Add padding as needed
             child: Center(child: child),
