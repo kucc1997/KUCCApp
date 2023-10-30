@@ -10,19 +10,18 @@ class WorkshopCard extends HookWidget {
   final String time;
   final String workshopName;
   final String room;
-  final String PeopleNo;
+  final String noOfPeople;
 
-  WorkshopCard(
+  const WorkshopCard(
       {super.key,
       required this.category,
       required this.time,
       required this.workshopName,
       required this.room,
-      required this.PeopleNo});
+      required this.noOfPeople});
 
   @override
   Widget build(BuildContext context) {
-     
     return Padding(
       padding: const EdgeInsets.all(16),
       child: InkWell(
@@ -54,14 +53,14 @@ class WorkshopCard extends HookWidget {
                       TimeBox(time: time)
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   WorkshopDetail(
                       workshopName: workshopName,
                       room: room,
                       block: "9",
-                      peopleNumber: PeopleNo)
+                      peopleNumber: noOfPeople)
                 ],
               ),
             )),

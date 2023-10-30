@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:timeline_tile/timeline_tile.dart';
+import 'package:timelines/timelines.dart';
 
 import 'daydate_card.dart';
 import 'workshop_card.dart';
@@ -12,10 +12,10 @@ class TimeLineTiles extends HookWidget {
   final String workshopName;
   final String room;
   final String date;
-  final String PeopleNo;
+  final String noOfPeople;
   final String day;
 
-  TimeLineTiles(
+  const TimeLineTiles(
       {super.key,
       required this.isFirst,
       required this.category,
@@ -23,27 +23,40 @@ class TimeLineTiles extends HookWidget {
       required this.workshopName,
       required this.room,
       required this.date,
-      required this.PeopleNo,
+      required this.noOfPeople,
       required this.day});
 
   @override
   Widget build(BuildContext context) {
-    return TimelineTile(
-      alignment: TimelineAlign.manual,
-      lineXY: 0.15,
-      startChild: DayDateCard(day: day, date: date),
-      isFirst: isFirst,
-      isLast: false,
-      indicatorStyle: const IndicatorStyle(
-        width: 7,
+    return Timeline.tileBuilder(
+      builder: TimelineTileBuilder.fromStyle(
+        contentsAlign: ContentsAlign.alternating,
+        contentsBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Text('Timeline Event $index'),
+        ),
+        itemCount: 1,
       ),
-      beforeLineStyle: const LineStyle(thickness: 1),
-      endChild: WorkshopCard(
-          category: category,
-          time: time,
-          workshopName: workshopName,
-          room: room,
-          PeopleNo: PeopleNo),
     );
+    //return TimelineTile(
+    //    alignment: TimelineAlign.manual,
+    //    lineXY: 0.15,
+    //    startChild: DayDateCard(day: day, date: date),
+    //    isFirst: isFirst,
+    //    isLast: false,
+    //    indicatorStyle: const IndicatorStyle(
+    //      width: 8,
+    //    ),
+    //    beforeLineStyle: const LineStyle(thickness: 1),
+    //    endChild: Column(
+    //      children: [
+    //        WorkshopCard(
+    //            category: category,
+    //            time: time,
+    //            workshopName: workshopName,
+    //            room: room,
+    //            noOfPeople: noOfPeople),
+    //      ],
+    //    ));
   }
 }
