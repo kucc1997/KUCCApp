@@ -54,7 +54,7 @@ class LoginFragment extends HookWidget {
     final loginButtonChildWidget = useState<Widget>(textWidgetLoginChild);
 
     void goToHome(BuildContext context) {
-      context.go("/home");
+      context.go("/events");
     }
 
     Future<void> onLoginClick() async {

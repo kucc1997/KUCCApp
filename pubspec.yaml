@@ -39,6 +39,7 @@ dependencies:
   flutter_hooks: ^0.20.3
   provider: ^6.0.5
   google_fonts: ^6.1.0
+  timeline_tile: ^2.0.0
 
 dev_dependencies:
   flutter_test:
