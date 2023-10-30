@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:kucc_app/views/pages/home/home.dart';
 import 'package:kucc_app/views/pages/signup_login/login_signup.dart';
+import 'package:kucc_app/views/pages/timeline/timeline.dart';
 
 GoRouter goRouter = GoRouter(routes: [
   GoRoute(
@@ -22,6 +23,12 @@ GoRouter goRouter = GoRouter(routes: [
             path: "settings",
             builder: (BuildContext context, GoRouterState state) {
               return const Text("");
+            }),
+        GoRoute(
+            name: "events",
+            path: "events",
+            builder: (BuildContext context, GoRouterState state) {
+              return const TimeLine();
             }),
       ]),
 ]);
