@@ -5,20 +5,27 @@ import 'package:kucc_app/views/pages/signup_login/components/logo.dart';
 
 //color: Color(0xFF46406B),
 class KUCCAppBar extends HookWidget {
-  KUCCAppBar({super.key});
+  const KUCCAppBar({super.key});
   @override
   Widget build(BuildContext context) {
     var statusBarHeight = MediaQuery.of(context).viewPadding.top;
     return Container(
-      color: Colors.white,
       height: statusBarHeight + 58,
       width: double.infinity,
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        const Text("L"),
-        const Text("M"),
-        //KUCCAppBarLogo(),
-        const KUCCAppBarProfileButton()
-      ]),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              bottomLeft: const Radius.circular(18), bottomRight: const Radius.circular(18)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              offset: const Offset(0, 10),
+              blurRadius: 8,
+            )
+          ]),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [const KUCCAppBarProfileButton(), const KUCCAppBarProfileButton()]),
     );
   }
 }

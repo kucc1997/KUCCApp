@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:kucc_app/models/model/timeline_event_data.dart';
 import 'package:kucc_app/viewmodels/timeline_viewmodel.dart';
+import 'package:kucc_app/views/components/app_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'components/timeline_block.dart';
@@ -74,6 +75,8 @@ class TimeLine extends HookWidget {
     final events = useState<Map<int, Map<int, List<TimeLineEventData>>>>({});
     final tlvm = Provider.of<TimeLineViewModel>(context);
 
+    //void fetchEvents() async {}
+
     useEffect(() {
       // fetch the data here events_data lai hatayera put on downloaded data
       events_data.map((d) => TimeLineEventData.fromJSON(d)).forEach((event) {
@@ -97,25 +100,32 @@ class TimeLine extends HookWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFE2E4F3),
-      body: RefreshIndicator(
-        displacement: 98,
-        onRefresh: () async {},
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-              children: (events.value.keys.toList()..sort())
-                  .map((eventYear) {
-                    return (events.value[eventYear]!.keys.toList()..sort()).map((eventMonth) {
-                      return TimeLineOfMonth(
-                        year: eventYear,
-                        month: eventMonth,
-                        events: events.value[eventYear]![eventMonth]!,
-                      );
-                    });
-                  })
-                  .expand((e) => e)
-                  .toList()),
-        ),
+      body: Column(
+        children: [
+          KUCCAppBar(),
+          Expanded(
+            child: RefreshIndicator(
+              displacement: 24,
+              onRefresh: () async {},
+              child: ScrollConfiguration(
+                behavior: const ScrollBehavior().copyWith(overscroll: false),
+                child: ListView(
+                    children: (events.value.keys.toList()..sort())
+                        .map((eventYear) {
+                          return (events.value[eventYear]!.keys.toList()..sort()).map((eventMonth) {
+                            return TimeLineOfMonth(
+                              year: eventYear,
+                              month: eventMonth,
+                              events: events.value[eventYear]![eventMonth]!,
+                            );
+                          });
+                        })
+                        .expand((e) => e)
+                        .toList()),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

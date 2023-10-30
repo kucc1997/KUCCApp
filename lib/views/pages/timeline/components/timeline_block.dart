@@ -32,7 +32,7 @@ class TimeLineOfMonth extends HookWidget {
     }, []);
 
     return Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.fromLTRB(18, 0, 18, 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
