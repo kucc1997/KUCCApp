@@ -32,8 +32,7 @@ class CategoryCard extends HookWidget {
         child: Center(
           child: Text(
             category,
-            style:GoogleFonts.inter(
-              textStyle: TextStyle(color: Colors.white, fontSize: 8)),
+            style: GoogleFonts.inter(textStyle: TextStyle(color: Colors.white, fontSize: 12)),
           ),
         ),
       ),
