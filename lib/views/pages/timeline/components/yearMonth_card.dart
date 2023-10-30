@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class YearMonth extends StatelessWidget {
-  final String year;
-  final String month;
+  final int year;
+  final int month;
 
   const YearMonth({super.key, required this.year, required this.month});
 
   @override
   Widget build(BuildContext context) {
+    String _month = DateFormat.MMMM().format(DateTime(2023, month, 1));
     return Padding(
-      padding: EdgeInsets.fromLTRB(23, 12, 8, 8),
+      padding: const EdgeInsets.fromLTRB(0, 12, 8, 8),
       child: Text(
-        "$month $year",
+        "$_month $year",
         style: GoogleFonts.inter(
-            textStyle: TextStyle(fontSize: 23, fontWeight: FontWeight.bold)),
+            textStyle:
+                const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
       ),
     );
   }

@@ -21,81 +21,74 @@ class TimeLineOfMonth extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    // day mapped to the list of events for that day
+    var dayEvents = useState<Map<int, List<TimeLineEventData>>>({});
+
+    useEffect(() {
+      for (var i = 0; i < events.length; i++) {
+        if (dayEvents.value[events[i].eventDay] == null) {
+          dayEvents.value[events[i].eventDay] =
+              List.from([events[i]], growable: true);
+        } else {
+          dayEvents.value[events[i].eventDay]!.add(events[i]);
+        }
+      }
+      return null;
+    }, []);
+
     return Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            YearMonth(
-                year: year.toString(),
-                month: DateFormat.MMMM().format(DateTime(2023, month, 1))),
-            Container(
-              padding: const EdgeInsets.only(top: 16),
-              child: FixedTimeline.tileBuilder(
-                theme: TimelineThemeData.vertical().copyWith(
-                    nodePosition: 0.1,
-                    indicatorTheme: const IndicatorThemeData(
-                        position: 0.5, color: Colors.red),
-                    connectorTheme: const ConnectorThemeData(thickness: 2.8)),
-                builder: TimelineTileBuilder(
-                  indicatorBuilder: (_, index) => DateAndDot(
-                    dateTime: DateTime.now(),
-                  ),
-                  indicatorPositionBuilder: (_, index) => 0,
-                  startConnectorBuilder: (_, index) => Opacity(
-                    opacity: 0.2,
-                    child: Connector.solidLine(
-                      color: Colors.black,
+            YearMonth(year: year, month: month),
+            const Padding(padding: EdgeInsets.only(top: 12)),
+            Column(
+                children: (dayEvents.value.keys.toList()..sort()).map((day) {
+              debugPrint("$day");
+              debugPrint("${dayEvents.value[day]}");
+              DateTime dateTime = dayEvents.value[day]!.first.dateTime;
+              return Container(
+                child: FixedTimeline.tileBuilder(
+                  theme: TimelineThemeData.vertical().copyWith(
+                      nodePosition: 0.08,
+                      connectorTheme: const ConnectorThemeData(thickness: 2.8)),
+                  builder: TimelineTileBuilder(
+                    indicatorBuilder: (_, index) => DateAndDot(
+                      dateTime: dateTime,
                     ),
-                  ),
-                  endConnectorBuilder: (_, index) => Opacity(
-                    opacity: 0.2,
-                    child: Connector.solidLine(
-                      color: Colors.black,
+                    indicatorPositionBuilder: (_, index) => 0,
+                    startConnectorBuilder: (_, index) => Opacity(
+                      opacity: 0.2,
+                      child: Connector.solidLine(
+                        color: Colors.black,
+                      ),
                     ),
+                    endConnectorBuilder: (_, index) => Opacity(
+                      opacity: 0.2,
+                      child: Connector.solidLine(
+                        color: Colors.black,
+                      ),
+                    ),
+                    contentsAlign: ContentsAlign.basic,
+                    contentsBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 18),
+                      child: Column(
+                          children:
+                              (dayEvents.value[day]!..sort()).map((event) {
+                        return WorkshopCard(
+                            workshopName: event.title,
+                            time: event.title,
+                            category: "X",
+                            room: "asfd",
+                            noOfPeople: event.noOfPeople);
+                      }).toList()),
+                    ),
+                    itemCount: 1,
                   ),
-                  contentsAlign: ContentsAlign.basic,
-                  contentsBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.only(
-                        left: 10, right: 18, bottom: 12, top: 16),
-                    child: Column(children: [
-                      //WorkshopCard(
-                      //category: "afdsa",
-                      //time: "asdfajj",
-                      //workshopName: "asdfj",
-                      //room: "asfd",
-                      //noOfPeople: "10"),
-                      Text("lajdfljsaj"),
-                      Text("lajdfljsaj"),
-                      Text("lajdfljsaj"),
-                      Text("lajdfljsaj"),
-                      Text("lajdfljsaj"),
-                      Text("lajdfljsaj"),
-                      Text("lajdfljsaj"),
-                      Text("lajdfljsaj"),
-                      Text("lajdfljsaj"),
-                    ]),
-                  ),
-                  itemCount: 4,
                 ),
-              ),
-            )
-
-            //ListView.builder(
-            //    shrinkWrap: true,
-            //    physics: const NeverScrollableScrollPhysics(),
-            //    itemCount: events.length,
-            //    itemBuilder: ((context, index) {
-            //      return TimeLineTiles(
-            //          isFirst: index == 0,
-            //          category: events[index]["category"],
-            //          time: events[index]["time"],
-            //          workshopName: events[index]["title"],
-            //          room: events[index]["location"],
-            //          date: events[index]["date"],
-            //          noOfPeople: events[index]["people"],
-            //          day: events[index]["day"]);
-            //    }))
+              );
+            }).toList())
           ],
         ));
   }

@@ -1,3 +1,4 @@
+//ignore_for_file: avoid_function_literals_in_foreach_calls
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:kucc_app/models/model/timeline_event_data.dart';
@@ -14,8 +15,48 @@ const events_data = [
     "day": "Wed"
   },
   {
-    "date": "2022-09-11 15:45:00",
+    "date": "2023-10-30 15:45:00",
+    "title": "Data in hand",
+    "location": "204",
+    "categories": ["Code"],
+    "noOfPeople": 20,
+    "day": "Wed"
+  },
+  {
+    "date": "2023-10-30 15:45:00",
+    "title": "Data in stomach",
+    "location": "204",
+    "categories": ["Code"],
+    "noOfPeople": 30,
+    "day": "Wed"
+  },
+  {
+    "date": "2022-09-28 15:45:00",
     "title": "HTML & CSS for Beginners",
+    "location": "204",
+    "categories": ["Code"],
+    "noOfPeople": 10,
+    "day": "Wed"
+  },
+  {
+    "date": "2023-06-28 15:45:00",
+    "title": "HTML & CSS for Beginners",
+    "location": "204",
+    "categories": ["Code"],
+    "noOfPeople": 10,
+    "day": "Wed"
+  },
+  {
+    "date": "2023-06-27 15:45:00",
+    "title": "Atom Bom Materials Needed Course",
+    "location": "204",
+    "categories": ["Code"],
+    "noOfPeople": 10,
+    "day": "Wed"
+  },
+  {
+    "date": "2023-06-28 15:45:00",
+    "title": "Atom Bomb Course",
     "location": "204",
     "categories": ["Code"],
     "noOfPeople": 10,
@@ -31,29 +72,25 @@ class TimeLine extends HookWidget {
     final events = useState<Map<int, Map<int, List<TimeLineEventData>>>>({});
 
     useEffect(() {
-      // fetch the data from here
-      events_data.forEach((d) {
-        debugPrint("ABOUT TO ADD $d");
-        TimeLineEventData event = TimeLineEventData.fromJSON(d);
-
+      // fetch the data here events_data lai hatayera put on downloaded data
+      events_data.map((d) => TimeLineEventData.fromJSON(d)).forEach((event) {
         int eventYear = event.eventYear;
         int eventMonth = event.eventMonth;
 
-        if (events.value.containsKey(eventYear)) {
-          // if an eventMonth of the eventYear is already in the map, then we add on to
-          // the list it holds else we create a fresh list and add
-          if (events.value[eventYear]!.containsKey(eventMonth)) {
+        if (events.value[eventYear] != null) {
+          if (events.value[eventYear]![eventMonth] != null) {
             events.value[eventYear]![eventMonth]!.add(event);
           } else {
-            events.value[event.eventYear] = {
-              event.eventMonth: [event]
-            };
+            List<TimeLineEventData> eventsInTheMonth =
+                List.empty(growable: true);
+            eventsInTheMonth.add(event);
+            events.value[eventYear]![eventMonth] = eventsInTheMonth;
           }
         } else {
           // directly adding as there's no any event of this year, so adding a fresh one
-          events.value[event.eventYear] = {
-            event.eventMonth: [event]
-          };
+          List<TimeLineEventData> eventsInTheMonth = List.empty(growable: true);
+          eventsInTheMonth.add(event);
+          events.value[eventYear] = {eventMonth: eventsInTheMonth};
         }
       });
       return null;
@@ -80,4 +117,3 @@ class TimeLine extends HookWidget {
     );
   }
 }
-
