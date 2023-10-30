@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:kucc_app/models/model/timeline_event_data.dart';
 import 'package:kucc_app/views/pages/timeline/components/date_and_dot.dart';
 import 'package:kucc_app/views/pages/timeline/components/workshop_card.dart';
 import 'package:timelines/timelines.dart';
 import 'yearMonth_card.dart';
 
-class TimeLineBlock extends HookWidget {
-  final String year;
-  final String month;
-  final dynamic events;
+class TimeLineOfMonth extends HookWidget {
+  final int month;
+  final int year;
+  final List<TimeLineEventData> events;
 
-  const TimeLineBlock(
+  const TimeLineOfMonth(
       {super.key,
-      required this.year,
       required this.month,
-      required this.events});
+      required this.events,
+      required this.year});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,9 @@ class TimeLineBlock extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            YearMonth(year: year, month: month),
+            YearMonth(
+                year: year.toString(),
+                month: DateFormat.MMMM().format(DateTime(2023, month, 1))),
             Container(
               padding: const EdgeInsets.only(top: 16),
               child: FixedTimeline.tileBuilder(

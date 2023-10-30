@@ -14,7 +14,7 @@ class YearMonth extends StatelessWidget {
       child: Text(
         "$month $year",
         style: GoogleFonts.inter(
-              textStyle:TextStyle(fontSize: 23, fontWeight: FontWeight.bold)),
+            textStyle: TextStyle(fontSize: 23, fontWeight: FontWeight.bold)),
       ),
     );
   }

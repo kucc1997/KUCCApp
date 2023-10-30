@@ -13,4 +13,12 @@ class TimeLineEventData {
     categories = json["categories"];
     noOfPeople = json["noOfPeople"];
   }
+
+  int get eventYear {
+    return dateTime.year;
+  }
+
+  int get eventMonth {
+    return dateTime.month;
+  }
 }

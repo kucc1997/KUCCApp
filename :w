@@ -13,14 +13,6 @@ const events_data = [
     "noOfPeople": 10,
     "day": "Wed"
   },
-  {
-    "date": "2022-09-11 15:45:00",
-    "title": "HTML & CSS for Beginners",
-    "location": "204",
-    "categories": ["Code"],
-    "noOfPeople": 10,
-    "day": "Wed"
-  },
 ];
 
 class TimeLine extends HookWidget {
@@ -31,7 +23,6 @@ class TimeLine extends HookWidget {
     final events = useState<Map<int, Map<int, List<TimeLineEventData>>>>({});
 
     useEffect(() {
-      // fetch the data from here
       events_data.forEach((d) {
         debugPrint("ABOUT TO ADD $d");
         TimeLineEventData event = TimeLineEventData.fromJSON(d);
@@ -60,24 +51,38 @@ class TimeLine extends HookWidget {
     }, []);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFE2E4F3),
+      backgroundColor: Color.fromARGB(255, 225, 230, 247),
       body: SingleChildScrollView(
         child: Column(
-            children: (events.value.keys.toList()..sort())
-                .map((eventYear) {
-                  return (events.value[eventYear]!.keys.toList()..sort())
-                      .map((eventMonth) {
-                    return TimeLineOfMonth(
-                      year: eventYear,
-                      month: eventMonth,
-                      events: events.value[eventYear]![eventMonth]!,
-                    );
-                  });
-                })
-                .expand((e) => e)
-                .toList()),
+            children: (events.value.keys.toList()..sort()).map((eventYear) {
+          //return TimeLineOfMonth(
+          //           year: events_data[index]["year"].toString(),
+          //           month: events_data[index]["month"].toString(),
+          //           events: events.value[ye];
+          //     })
+          return Text("lasfjalsidfslajflajslfjaldfjaljsfalsjfjd");
+        }).toList()
+//          return (events.value[eventYear]!.keys.toList()..sort())
+//              .map((eventMonth) {
+//            return Text("l");
+//          }).toList();
+//        })),
+            ),
       ),
     );
+    // ListView.builder(
+    //     // counts total no of available months in each year's events
+    //     itemCount: events.value.keys.fold(0, (acc, elem) {
+    //       return acc! + events.value[elem]!.length;
+    //     }),
+    //     itemBuilder: ((context, index) {
+    //         //int eventMonth = eve
+    //       return TimeLineOfMonth(
+    //           year: events_data[index]["year"].toString(),
+    //           month: events_data[index]["month"].toString(),
+    //           events: events.value[ye];
+    //     })
+    //));
   }
 }
 
