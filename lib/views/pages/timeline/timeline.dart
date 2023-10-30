@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:kucc_app/models/model/timeline_event_data.dart';
+import 'package:kucc_app/viewmodels/timeline_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 import 'components/timeline_block.dart';
 
@@ -32,7 +34,7 @@ const events_data = [
   },
   {
     "date": "2022-09-28 15:45:00",
-    "title": "HTML & CSS for Beginners",
+    "title": "HTML & CSS for Beginners and aldfjals flas fals and lets do this   ",
     "location": "204",
     "categories": ["Code"],
     "noOfPeople": 10,
@@ -70,6 +72,7 @@ class TimeLine extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final events = useState<Map<int, Map<int, List<TimeLineEventData>>>>({});
+    final tlvm = Provider.of<TimeLineViewModel>(context);
 
     useEffect(() {
       // fetch the data here events_data lai hatayera put on downloaded data
@@ -79,18 +82,14 @@ class TimeLine extends HookWidget {
 
         if (events.value[eventYear] != null) {
           if (events.value[eventYear]![eventMonth] != null) {
-            events.value[eventYear]![eventMonth]!.add(event);
+            events.value[eventYear]![eventMonth]?.add(event);
           } else {
-            List<TimeLineEventData> eventsInTheMonth =
-                List.empty(growable: true);
-            eventsInTheMonth.add(event);
-            events.value[eventYear]![eventMonth] = eventsInTheMonth;
+            events.value[eventYear]![eventMonth] = List.from([event], growable: true);
           }
         } else {
-          // directly adding as there's no any event of this year, so adding a fresh one
-          List<TimeLineEventData> eventsInTheMonth = List.empty(growable: true);
-          eventsInTheMonth.add(event);
-          events.value[eventYear] = {eventMonth: eventsInTheMonth};
+          events.value[eventYear] = {
+            eventMonth: List.from([event], growable: true)
+          };
         }
       });
       return null;
@@ -98,21 +97,25 @@ class TimeLine extends HookWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFE2E4F3),
-      body: SingleChildScrollView(
-        child: Column(
-            children: (events.value.keys.toList()..sort())
-                .map((eventYear) {
-                  return (events.value[eventYear]!.keys.toList()..sort())
-                      .map((eventMonth) {
-                    return TimeLineOfMonth(
-                      year: eventYear,
-                      month: eventMonth,
-                      events: events.value[eventYear]![eventMonth]!,
-                    );
-                  });
-                })
-                .expand((e) => e)
-                .toList()),
+      body: RefreshIndicator(
+        displacement: 98,
+        onRefresh: () async {},
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+              children: (events.value.keys.toList()..sort())
+                  .map((eventYear) {
+                    return (events.value[eventYear]!.keys.toList()..sort()).map((eventMonth) {
+                      return TimeLineOfMonth(
+                        year: eventYear,
+                        month: eventMonth,
+                        events: events.value[eventYear]![eventMonth]!,
+                      );
+                    });
+                  })
+                  .expand((e) => e)
+                  .toList()),
+        ),
       ),
     );
   }

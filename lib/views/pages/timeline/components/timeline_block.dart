@@ -13,11 +13,7 @@ class TimeLineOfMonth extends HookWidget {
   final int year;
   final List<TimeLineEventData> events;
 
-  const TimeLineOfMonth(
-      {super.key,
-      required this.month,
-      required this.events,
-      required this.year});
+  const TimeLineOfMonth({super.key, required this.month, required this.events, required this.year});
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +23,7 @@ class TimeLineOfMonth extends HookWidget {
     useEffect(() {
       for (var i = 0; i < events.length; i++) {
         if (dayEvents.value[events[i].eventDay] == null) {
-          dayEvents.value[events[i].eventDay] =
-              List.from([events[i]], growable: true);
+          dayEvents.value[events[i].eventDay] = List.from([events[i]], growable: true);
         } else {
           dayEvents.value[events[i].eventDay]!.add(events[i]);
         }
@@ -48,44 +43,40 @@ class TimeLineOfMonth extends HookWidget {
               debugPrint("$day");
               debugPrint("${dayEvents.value[day]}");
               DateTime dateTime = dayEvents.value[day]!.first.dateTime;
-              return Container(
-                child: FixedTimeline.tileBuilder(
-                  theme: TimelineThemeData.vertical().copyWith(
-                      nodePosition: 0.08,
-                      connectorTheme: const ConnectorThemeData(thickness: 2.8)),
-                  builder: TimelineTileBuilder(
-                    indicatorBuilder: (_, index) => DateAndDot(
-                      dateTime: dateTime,
-                    ),
-                    indicatorPositionBuilder: (_, index) => 0,
-                    startConnectorBuilder: (_, index) => Opacity(
-                      opacity: 0.2,
-                      child: Connector.solidLine(
-                        color: Colors.black,
-                      ),
-                    ),
-                    endConnectorBuilder: (_, index) => Opacity(
-                      opacity: 0.2,
-                      child: Connector.solidLine(
-                        color: Colors.black,
-                      ),
-                    ),
-                    contentsAlign: ContentsAlign.basic,
-                    contentsBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 18),
-                      child: Column(
-                          children:
-                              (dayEvents.value[day]!..sort()).map((event) {
-                        return WorkshopCard(
-                            workshopName: event.title,
-                            time: event.title,
-                            category: "X",
-                            room: "asfd",
-                            noOfPeople: event.noOfPeople);
-                      }).toList()),
-                    ),
-                    itemCount: 1,
+              return FixedTimeline.tileBuilder(
+                theme: TimelineThemeData.vertical().copyWith(
+                    nodePosition: 0.08, connectorTheme: const ConnectorThemeData(thickness: 2.8)),
+                builder: TimelineTileBuilder(
+                  indicatorBuilder: (_, index) => DateAndDot(
+                    dateTime: dateTime,
                   ),
+                  indicatorPositionBuilder: (_, index) => 0,
+                  startConnectorBuilder: (_, index) => Opacity(
+                    opacity: 0.2,
+                    child: Connector.solidLine(
+                      color: Colors.black,
+                    ),
+                  ),
+                  endConnectorBuilder: (_, index) => Opacity(
+                    opacity: 0.2,
+                    child: Connector.solidLine(
+                      color: Colors.black,
+                    ),
+                  ),
+                  contentsAlign: ContentsAlign.basic,
+                  contentsBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.only(left: 8, top: 18),
+                    child: Column(
+                        children: (dayEvents.value[day]!..sort()).map((event) {
+                      return WorkshopCard(
+                          workshopName: event.title,
+                          dateTime: event.dateTime,
+                          category: event.categories.first,
+                          location: event.location,
+                          noOfPeople: event.noOfPeople);
+                    }).toList()),
+                  ),
+                  itemCount: 1,
                 ),
               );
             }).toList())

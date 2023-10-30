@@ -7,21 +7,24 @@ import 'workshop_detail.dart';
 
 class WorkshopCard extends HookWidget {
   final String category;
-  final String time;
+  final DateTime dateTime;
   final String workshopName;
-  final String room;
+  final String location;
   final int noOfPeople;
 
   const WorkshopCard(
       {super.key,
       required this.category,
-      required this.time,
+      required this.dateTime,
       required this.workshopName,
-      required this.room,
+      required this.location,
       required this.noOfPeople});
 
   @override
   Widget build(BuildContext context) {
+    int hour = dateTime.hour;
+    int min = dateTime.minute;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 18),
       child: Material(
@@ -42,6 +45,7 @@ class WorkshopCard extends HookWidget {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
+                      offset: const Offset(10, 10),
                       blurRadius: 20,
                     )
                   ]),
@@ -52,17 +56,14 @@ class WorkshopCard extends HookWidget {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CategoryCard(category: category),
-                        TimeBox(time: time)
-                      ],
+                      children: [CategoryCard(category: category), TimeBox(time: "$hour:$min")],
                     ),
                     const SizedBox(
                       height: 8,
                     ),
                     WorkshopDetail(
                         workshopName: workshopName,
-                        room: room,
+                        room: location,
                         block: "9",
                         peopleNumber: "$noOfPeople")
                   ],
