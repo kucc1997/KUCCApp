@@ -18,7 +18,7 @@ class DateAndDot extends StatelessWidget {
       child: Stack(children: [
         Indicator.dot(size: 8, color: Colors.grey),
         OverflowBox(
-          maxHeight: 38,
+          maxHeight: 48,
           maxWidth: 100,
           child: Container(
             alignment: Alignment.bottomCenter,
@@ -52,12 +52,12 @@ class StackedDayAndDayOfWeek extends StatelessWidget {
           day,
           style: GoogleFonts.inter(
               textStyle:
-                  const TextStyle(fontWeight: FontWeight.w600, fontSize: 22)),
+                  const TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
         ),
         Text(
           dayOfWeek,
           style: GoogleFonts.inter(
-              textStyle: const TextStyle(fontWeight: FontWeight.w600)),
+              textStyle: const TextStyle(fontWeight: FontWeight.w600,fontSize: 11)),
         ),
       ],
     );

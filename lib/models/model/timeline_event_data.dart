@@ -1,5 +1,5 @@
 /// A single event on the timeline
-class TimeLineEventData {
+class TimeLineEventData implements Comparable<TimeLineEventData> {
   late final DateTime dateTime; // In YYYY-MM-DD:HH:MM (Eg. 2023-10-30 15:45:00)
   late final String title; // The title of the event
   late final String location; // The location (Eg. Virtual, Block 9 - 304)
@@ -12,5 +12,22 @@ class TimeLineEventData {
     location = json["location"];
     categories = json["categories"];
     noOfPeople = json["noOfPeople"];
+  }
+
+  int get eventYear {
+    return dateTime.year;
+  }
+
+  int get eventMonth {
+    return dateTime.month;
+  }
+
+  int get eventDay {
+    return dateTime.day;
+  }
+
+  @override
+  int compareTo(TimeLineEventData other) {
+    return dateTime.compareTo(other.dateTime);
   }
 }

@@ -22,18 +22,17 @@ class CategoryCard extends HookWidget {
     final backgroundColor = colorMapping[category] ?? Colors.grey;
 
     return Container(
-      width: 50,
+      width: 80,
+      height: 22,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Padding(
-        padding: EdgeInsets.all(3.0),
-        child: Center(
-          child: Text(
-            category,
-            style: GoogleFonts.inter(textStyle: TextStyle(color: Colors.white, fontSize: 10.5)),
-          ),
+      child: Center(
+        child: Text(
+          category,
+          style: GoogleFonts.inter(
+              textStyle: TextStyle(color: Colors.white, fontSize: 13)),
         ),
       ),
     );

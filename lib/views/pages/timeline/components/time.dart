@@ -18,14 +18,13 @@ class TimeBox extends HookWidget {
           size: 14,
         ),
         SizedBox(width: 3),
-        Text(
-          time,
-          style: GoogleFonts.inter(
-              textStyle:TextStyle(
-            fontSize: 10,
-            color: Colors.black,
-          ),
-        )),
+        Text(time,
+            style: GoogleFonts.inter(
+              textStyle: TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+              ),
+            )),
       ],
     );
   }

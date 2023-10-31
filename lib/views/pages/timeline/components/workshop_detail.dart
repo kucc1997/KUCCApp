@@ -24,31 +24,29 @@ class WorkshopDetail extends HookWidget {
         Text(
           workshopName,
           style: GoogleFonts.inter(
-              textStyle:TextStyle(fontWeight: FontWeight.bold)),
+              textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5)),
         ),
-        const SizedBox(
-          height: 8,
-        ),
+        const SizedBox(height: 8),
         Text(
           "Room $room - Block $block",
-          style:GoogleFonts.inter(
-              textStyle: TextStyle(fontSize: 10, color: Colors.grey)),
+          style: GoogleFonts.inter(textStyle: const TextStyle(fontSize: 12, color: Colors.grey)),
         ),
-        const SizedBox(
-          height: 8,
-        ),
+        const SizedBox(height: 8),
         Row(
           children: [
             Icon(
               Icons.person_2_outlined,
               color: Colors.grey,
-              size: 14,
+              size: 12,
             ),
             SizedBox(width: 3),
             Text(
               peopleNumber,
               style: GoogleFonts.inter(
-              textStyle:TextStyle(fontSize: 10, color: Colors.grey)),
+                  textStyle: const TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+              )),
             ),
           ],
         ),
