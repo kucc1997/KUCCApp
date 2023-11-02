@@ -26,7 +26,6 @@ class EventPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     double screenWidth = MediaQuery.of(context).size.width;
     final edvm = Provider.of<EventDetailViewModel>(context);
 
@@ -56,8 +55,7 @@ class EventPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CategoryCard(category: category),
                                 BookMark(),
@@ -67,9 +65,8 @@ class EventPage extends StatelessWidget {
                               height: 15,
                             ),
                             Text(workshopName,
-                                style: GoogleFonts.inter(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold)),
+                                style:
+                                    GoogleFonts.inter(fontSize: 30, fontWeight: FontWeight.bold)),
                             SizedBox(
                               height: 12,
                             ),
@@ -78,13 +75,9 @@ class EventPage extends StatelessWidget {
                               runSpacing: 8.0,
                               children: [
                                 DetailChip(
-                                    startingIcon: Icons.person_2_outlined,
-                                    information: PeopleNo),
-                                DetailChip(
-                                    information: "Room $room - Block 9"),
-                                DetailChip(
-                                    startingIcon: Icons.access_time,
-                                    information: time),
+                                    startingIcon: Icons.person_2_outlined, information: PeopleNo),
+                                DetailChip(information: "Room $room - Block 9"),
+                                DetailChip(startingIcon: Icons.access_time, information: time),
                                 DetailChip(information: "Free")
                               ],
                             ),
@@ -96,15 +89,12 @@ class EventPage extends StatelessWidget {
                       left: 0.057 * screenWidth,
                       bottom: 70,
                       child: Button(
-                          startingIcon: Icons.star_border_outlined,
-                          buttonText: "Interested"),
+                          startingIcon: Icons.star_border_outlined, buttonText: "Interested"),
                     ),
                     Positioned(
                       left: 0.057 * screenWidth,
                       bottom: 20,
-                      child: Button(
-                          startingIcon: Icons.check_circle,
-                          buttonText: "Going"),
+                      child: Button(startingIcon: Icons.check_circle, buttonText: "Going"),
                     ),
                   ],
                 ),

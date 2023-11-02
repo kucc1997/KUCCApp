@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kucc_app/constants/theme.dart';
 import 'package:kucc_app/routes.dart';
+import 'package:kucc_app/viewmodels/eventdetail_viewmodel.dart';
 import 'package:kucc_app/viewmodels/signup_login_viewmodel.dart';
 import 'package:kucc_app/viewmodels/timeline_viewmodel.dart';
 import 'package:kucc_app/views/pages/timeline/timeline.dart';
@@ -11,11 +12,13 @@ const appName = "KUCC";
 void main() {
   SignupLoginViewModel slvm = SignupLoginViewModel();
   TimeLineViewModel tlvm = TimeLineViewModel();
+  EventDetailViewModel edvm = EventDetailViewModel();
 
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => slvm),
       ChangeNotifierProvider(create: (_) => tlvm),
+      ChangeNotifierProvider(create: (_) => edvm),
     ], child: const MyApp()),
   );
 }
@@ -34,4 +37,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

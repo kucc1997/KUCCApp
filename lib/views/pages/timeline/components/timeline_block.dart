@@ -40,8 +40,6 @@ class TimeLineOfMonth extends HookWidget {
             const Padding(padding: EdgeInsets.only(top: 12)),
             Column(
                 children: (dayEvents.value.keys.toList()..sort()).map((day) {
-              debugPrint("$day");
-              debugPrint("${dayEvents.value[day]}");
               DateTime dateTime = dayEvents.value[day]!.first.dateTime;
               return FixedTimeline.tileBuilder(
                 theme: TimelineThemeData.vertical().copyWith(
@@ -51,18 +49,8 @@ class TimeLineOfMonth extends HookWidget {
                     dateTime: dateTime,
                   ),
                   indicatorPositionBuilder: (_, index) => 0,
-                  startConnectorBuilder: (_, index) => Opacity(
-                    opacity: 0.2,
-                    child: Connector.solidLine(
-                      color: Colors.black,
-                    ),
-                  ),
-                  endConnectorBuilder: (_, index) => Opacity(
-                    opacity: 0.2,
-                    child: Connector.solidLine(
-                      color: Colors.black,
-                    ),
-                  ),
+                  startConnectorBuilder: (_, index) => const IndicatorConnector(),
+                  endConnectorBuilder: (_, index) => const IndicatorConnector(),
                   contentsAlign: ContentsAlign.basic,
                   contentsBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.only(left: 8, top: 18),
@@ -82,5 +70,18 @@ class TimeLineOfMonth extends HookWidget {
             }).toList())
           ],
         ));
+  }
+}
+
+class IndicatorConnector extends StatelessWidget {
+  const IndicatorConnector({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: 0.2,
+      child: Connector.solidLine(
+        color: Colors.black,
+      ),
+    );
   }
 }
