@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kucc_app/constants/theme.dart';
 import 'package:kucc_app/routes.dart';
 import 'package:kucc_app/viewmodels/signup_login_viewmodel.dart';
 import 'package:kucc_app/viewmodels/timeline_viewmodel.dart';
@@ -28,16 +29,7 @@ class MyApp extends StatelessWidget {
       title: appName,
       debugShowCheckedModeBanner: false,
       routerConfig: goRouter,
-      //theme: ThemeData(
-      //  brightness: Brightness.light,
-      //  primarySwatch: AppColors.getMaterialColorFromColor(settingViewModel.selectedPrimaryColor),
-      //  primaryColor: settingViewModel.selectedPrimaryColor,
-      //),
-      //darkTheme: ThemeData(
-      //  brightness: Brightness.dark,
-      //  primarySwatch: AppColors.getMaterialColorFromColor(settingViewModel.selectedPrimaryColor),
-      //  primaryColor: settingViewModel.selectedPrimaryColor,
-      //),
+      theme: kTheme(),
     );
   }
 }
