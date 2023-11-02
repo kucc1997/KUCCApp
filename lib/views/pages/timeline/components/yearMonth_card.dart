@@ -12,12 +12,12 @@ class YearMonth extends StatelessWidget {
   Widget build(BuildContext context) {
     String _month = DateFormat.MMMM().format(DateTime(2023, month, 1));
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 12, 8, 8),
+      padding: const EdgeInsets.fromLTRB(0, 12, 8, 10),
       child: Text(
         "$_month $year",
         style: GoogleFonts.inter(
             textStyle:
-                const TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+                const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       ),
     );
   }

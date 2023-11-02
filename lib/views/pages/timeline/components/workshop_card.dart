@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:kucc_app/views/pages/event_detail/event_page.dart';
-
 import 'category_card.dart';
 import 'time.dart';
 import 'workshop_detail.dart';
