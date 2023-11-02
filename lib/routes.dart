@@ -28,7 +28,7 @@ GoRouter goRouter = GoRouter(routes: [
             name: "events",
             path: "events",
             builder: (BuildContext context, GoRouterState state) {
-              return TimeLine();
+              return const TimeLine();
             }),
       ]),
 ]);

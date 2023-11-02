@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:kucc_app/routes.dart';
 import 'package:kucc_app/viewmodels/signup_login_viewmodel.dart';
+import 'package:kucc_app/viewmodels/timeline_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 const appName = "KUCC";
 
 void main() {
-  SignupLoginViewModel signupLoginViewModel = SignupLoginViewModel();
+  SignupLoginViewModel slvm = SignupLoginViewModel();
+  TimeLineViewModel tlvm = TimeLineViewModel();
 
   runApp(
     MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_) => signupLoginViewModel),
+      ChangeNotifierProvider(create: (_) => slvm),
+      ChangeNotifierProvider(create: (_) => tlvm),
     ], child: const MyApp()),
   );
 }
