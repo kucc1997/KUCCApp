@@ -3,6 +3,7 @@ import 'package:kucc_app/constants/theme.dart';
 import 'package:kucc_app/routes.dart';
 import 'package:kucc_app/viewmodels/signup_login_viewmodel.dart';
 import 'package:kucc_app/viewmodels/timeline_viewmodel.dart';
+import 'package:kucc_app/views/pages/timeline/timeline.dart';
 import 'package:provider/provider.dart';
 
 const appName = "KUCC";
@@ -33,3 +34,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

@@ -22,7 +22,7 @@ class TimeBox extends HookWidget {
             style: GoogleFonts.inter(
               textStyle: TextStyle(
                 fontSize: 12,
-                color: Colors.black,
+                color: Colors.grey,
               ),
             )),
       ],
