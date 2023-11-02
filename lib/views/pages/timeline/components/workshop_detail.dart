@@ -24,7 +24,7 @@ class WorkshopDetail extends HookWidget {
         Text(
           workshopName,
           style: GoogleFonts.inter(
-              textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5)),
         ),
         const SizedBox(height: 8),
         Text(
@@ -43,14 +43,11 @@ class WorkshopDetail extends HookWidget {
             Text(
               peopleNumber,
               style: GoogleFonts.inter(
-                  textStyle: const TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
-              )),
+                  textStyle: const TextStyle(fontSize: 12,
+                color: Colors.grey,))
             ),
           ],
         ),
-      ],
-    );
+  ]);
   }
 }

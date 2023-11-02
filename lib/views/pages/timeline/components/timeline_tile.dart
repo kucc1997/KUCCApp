@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:timelines/timelines.dart';
-
-import 'daydate_card.dart';
 import 'workshop_card.dart';
 
 class TimeLineTiles extends HookWidget {
