@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import '../../event_detail/event_page.dart';
 import 'category_card.dart';
 import 'time.dart';
 import 'workshop_detail.dart';
@@ -30,7 +31,7 @@ class WorkshopCard extends HookWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context)=>EventPage(category: category, time: "15:00", workshopName: workshopName, room: location, PeopleNo: noOfPeople.toString())));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>EventPage(category: category, time: "15:00", workshopName: workshopName, room: location, PeopleNo: noOfPeople.toString())));
           },
           child: Container(
               decoration: BoxDecoration(
