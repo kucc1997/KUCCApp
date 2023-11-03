@@ -1,241 +1,233 @@
+// TODO : Use color from the themeprovider
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kucc_app/models/model/routine_data.dart';
+import 'package:kucc_app/viewmodels/routine_viewmodel.dart';
 import 'package:kucc_app/views/components/app_bar.dart';
+import 'package:kucc_app/views/pages/event_detail/components/event_button.dart';
+import 'package:kucc_app/views/pages/routine/components/routine_timeline.dart';
+import 'package:kucc_app/views/pages/routine/components/routine_week_slider.dart';
+import 'package:provider/provider.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 import 'package:timelines/timelines.dart';
 
-//return FixedTimeline.tileBuilder(
-//  theme: TimelineThemeData.vertical().copyWith(
-//      nodePosition: 0.08, connectorTheme: const ConnectorThemeData(thickness: 2.8)),
-//  builder: TimelineTileBuilder(
-//    indicatorBuilder: (_, index) => DateAndDot(
-//      dateTime: dateTime,
-//    ),
-//    indicatorPositionBuilder: (_, index) => 0,
-//    startConnectorBuilder: (_, index) => const IndicatorConnector(),
-//    endConnectorBuilder: (_, index) => const IndicatorConnector(),
-//    contentsAlign: ContentsAlign.basic,
-//    contentsBuilder: (context, index) => Padding(
-//      padding: const EdgeInsets.only(left: 8, top: 18),
-//      child: Column(
-//          children: (dayEvents.value[day]!..sort()).map((event) {
-//        return WorkshopCard(
-//            workshopName: event.title,
-//            dateTime: event.dateTime,
-//            category: event.categories.first,
-//            location: event.location,
-//            noOfPeople: event.noOfPeople);
-//      }).toList()),
-//    ),
-//    itemCount: 1,
-//  ),
-//);
-//class RoutineTimeline extends HookWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return FixedTimeline.tileBuilder(
-//        theme: TimelineThemeData.vertical()
-//            .copyWith(nodePosition: 0.08, connectorTheme: const ConnectorThemeData(thickness: 2.8)),
-//        builder: TimelineTileBuilder(
-//            indicatorPositionBuilder: (_, index) => 0,
-//            indicatorBuilder: (_, index) => Indicator.dot(
-//                  color: Colors.red,
-//                  size: 8,
-//                ),
-//            itemCount: 10,
-//            contentsBuilder: (x, y) =>
-//                Padding(padding: EdgeInsets.all(10), child: Text("${7 + y}"))));
-//  }
-//}
-//class Example1Vertical extends StatelessWidget {
-//const Example1Vertical({Key? key}) : super(key: key);
+class RoutineFacultyBatchButton extends HookWidget {
+  final void Function() onClick;
 
-//@override
-//Widget build(BuildContext context) {
-//return SliverList(
-//delegate: SliverChildListDelegate(
-//<Widget>[
-//Container(
-//color: Colors.white,
-//child: TimelineTile(),
-//),
-//],
-//),
-//);
-//}
-//}
-//class RoutineTimeline extends HookWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return SliverList(
-//      delegate: SliverChildListDelegate([
-//        Column(
-//          children: [
-//            Container(
-//                constraints: const BoxConstraints(maxHeight: 100),
-//                child: TimelineTile(
-//                  axis: TimelineAxis.vertical,
-//                  alignment: TimelineAlign.center,
-//                )),
-//            TimelineTile(axis: TimelineAxis.vertical)
-//            //TimelineTile(node: Text("asldfjsal"), direction: TimelineA),
-//          ],
-//        ),
-//      ]),
-//    );
-//  }
-//}
-//
-
-//{
-//    "batch" : "2021",
-//    "schedule" : {
-//        "monday" : [
-//            "time"
-//        ]
-//    }
-//    //"sunday" : {
-//    //    "7" : "PHYSICS 102",
-//    //    "8" : "PHYSICS 102",
-//    //    "9" : "PHYSICS 102",
-//    //    "10" : "Break",
-//    //    "7" : "PHYSICS 102",
-//    //    "7" : "PHYSICS 102",
-//    //    "7" : "PHYSICS 102",
-//    //    "7" : "PHYSICS 102",
-//    //    "7" : "PHYSICS 102",
-//    //}
-//}
-class Routine extends HookWidget {
-  const Routine({super.key});
+  const RoutineFacultyBatchButton({super.key, required this.onClick});
 
   @override
   Widget build(BuildContext context) {
-    const nodeWidthCoverage = 0.15;
-    const double singleHourHeight = 96;
-    const startTime = 7; // To be determined by batch which can be 9
-    const endTime = 16; // To be determined by batch which can be 2
+    final controller = useAnimationController(duration: const Duration(milliseconds: 80));
+    final animation = useAnimation(controller);
+    final isButtonActive = useState(false);
+    final themeData = Theme.of(context);
 
-    return Scaffold(
-      body: Column(
-        children: [
-          KUCCAppBar(),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(top: 16),
-              child: Stack(
-                children: [
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: endTime - startTime,
-                    itemBuilder: (x, i) {
-                      return TimelineTile(
-                        nodePosition: nodeWidthCoverage,
-                        oppositeContents: Container(
-                          height: singleHourHeight,
-                          child: Text(
-                            "${startTime + i} ${(startTime + i) > 12 ? "PM" : "AM"}",
-                            style: GoogleFonts.manrope(fontSize: 18),
-                          ),
-                        ),
-                        node: TimelineNode(
-                          indicatorPosition: 0.0,
-                          indicator: DotIndicator(size: 8),
-                          startConnector: SolidLineConnector(),
-                          endConnector: SolidLineConnector(),
-                        ),
-                      );
-                    },
-                  ),
-                  Positioned(
-                    top: 38,
-                    left: (nodeWidthCoverage * MediaQuery.of(context).size.width),
-                    child: Container(
-                      width: ((1 - nodeWidthCoverage) * MediaQuery.of(context).size.width),
-                      child: Column(
-                        children: [
-                          RoutineSubjectCard(
-                            singleHourHeight: singleHourHeight,
-                            noOfHours: 1,
-                            subject: "COMP 101",
-                          ),
-                          RoutineSubjectCard(
-                            singleHourHeight: singleHourHeight,
-                            noOfHours: 2,
-                            subject: "PHY 102",
-                          ),
-                          RoutineSubjectCard(
-                            singleHourHeight: singleHourHeight,
-                            noOfHours: 2,
-                            subject: "MATH 202",
-                          ),
-                          RoutineSubjectCard(
-                            singleHourHeight: singleHourHeight,
-                            noOfHours: 1,
-                            subject: "EDRG 215",
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
+    void onTap() {
+      isButtonActive.value = !isButtonActive.value;
+      onClick();
+      if (isButtonActive.value) {
+        controller.forward();
+      } else {
+        controller.reverse();
+      }
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: onTap,
+          child: Ink(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+              color: isButtonActive.value
+                  ? themeData.colorScheme.primary
+                  : themeData.colorScheme.onPrimary,
+            ),
+            width: double.infinity,
+            height: 56,
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "CS - 2021",
+                  style: GoogleFonts.manrope(
+                      color: isButtonActive.value
+                          ? themeData.colorScheme.onPrimary
+                          : themeData.colorScheme.primary,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600),
+                ),
+                AnimatedBuilder(
+                  animation: controller,
+                  builder: (context, child) {
+                    return Transform(
+                      alignment: Alignment.center,
+                      transform: Matrix4.identity()
+                        ..setEntry(3, 2, 0.002) // Perspective effect
+                        ..rotateX(animation * 3.14), // Rotate on the X-axis
+                      child: Icon(Icons.keyboard_arrow_down,
+                          size: 26,
+                          color: isButtonActive.value
+                              ? themeData.colorScheme.onPrimary
+                              : themeData.colorScheme.primary),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
-class RoutineSubjectCard extends StatelessWidget {
-  final double singleHourHeight;
-  final int noOfHours;
-  final String subject;
+class RoutineFacultyBatchInput extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
+    final controller = useAnimationController(duration: const Duration(milliseconds: 80));
+    final animation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(controller);
+    final isButtonActive = useState(false);
 
-  RoutineSubjectCard(
-      {super.key, required this.singleHourHeight, required this.noOfHours, required this.subject});
+    void onClick() {
+      if (isButtonActive.value) {
+        controller.reverse();
+      } else {
+        controller.forward();
+      }
+      isButtonActive.value = !isButtonActive.value;
+    }
+
+    return Column(
+      children: [
+        RoutineFacultyBatchButton(
+          onClick: onClick,
+        ),
+        AnimatedBuilder(
+          animation: animation,
+          builder: (context, child) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: themeData.colorScheme.onPrimary,
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  ),
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Please choose your faculty",
+                              style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            Text("and semester to view class",
+                                style:
+                                    GoogleFonts.manrope(fontWeight: FontWeight.w500, fontSize: 16)),
+                            Text("routine",
+                                style:
+                                    GoogleFonts.manrope(fontWeight: FontWeight.w500, fontSize: 16)),
+                          ],
+                        ),
+                      ),
+                      Padding(padding: const EdgeInsets.all(16), child: KUCCAttacheDropDownMenu()),
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                          child: KUCCAttacheDropDownMenu()),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class KUCCAttacheDropDownMenu extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      elevation: 0,
+      child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          onTap: () {
+            //showDropDown();
+          },
+          child: Ink(
+            decoration: BoxDecoration(
+              border: Border.all(width: 1),
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
+            width: double.infinity,
+            height: 48,
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Choose your faculty",
+                    style: GoogleFonts.manrope(fontWeight: FontWeight.w500, fontSize: 16)),
+                const Icon(Icons.keyboard_arrow_down, size: 28),
+              ],
+            ),
+          )),
+    );
+  }
+}
+
+class Routine extends HookWidget {
+  const Routine({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: singleHourHeight * noOfHours,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 8, right: 16, left: 18),
-        child: Container(
-          constraints: const BoxConstraints.expand(),
-          padding: EdgeInsets.all(18),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "$subject",
-                  style: GoogleFonts.manrope(
-                      fontSize: 28, fontWeight: FontWeight.w800, color: Colors.white),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "2 hour",
-                      style: GoogleFonts.manrope(
-                          fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white),
-                    ),
-                    Text(
-                      "12:00PM - 14:00PM",
-                      style: GoogleFonts.manrope(
-                          fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white),
-                    ),
-                  ],
-                )
-              ]),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: Color(0xFF72C0D1),
+    RoutineViewModel rVM = Provider.of(context);
+
+    useEffect(() {}, []);
+    return Scaffold(
+      backgroundColor: Color(0xFFE2E4F3),
+      body: Column(
+        children: [
+          const KUCCAppBar(),
+          const Padding(padding: EdgeInsets.all(20)),
+          RoutineFacultyBatchInput(),
+          Container(
+            padding: const EdgeInsets.only(top: 16, bottom: 16),
+            child: const RoutineWeekSlider(),
           ),
-          //decoration: BoxDecoration(),
-        ),
+          Expanded(
+            child: ScrollConfiguration(
+              behavior: const ScrollBehavior().copyWith(overscroll: false),
+              child: ListView(
+                children: [
+                  RoutineTimeline(),
+                ],
+                //),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
