@@ -7,10 +7,11 @@ import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
 
 class RoutineTimeline extends HookWidget {
-  double oneHourHeight;
-  double indicatorWidthCoveragePerc;
+  final double oneHourHeight;
+  final double indicatorWidthCoveragePerc;
 
-  RoutineTimeline({super.key, this.oneHourHeight = 96, this.indicatorWidthCoveragePerc = 0.18});
+  const RoutineTimeline(
+      {super.key, this.oneHourHeight = 96, this.indicatorWidthCoveragePerc = 0.18});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class RoutineTimeline extends HookWidget {
     final currentWeekDaySchedule = rVM.currentWeekDaySchedule;
     final startTime = rVM.currentWeekDayStartTime;
 
-    return Container(
+    return SizedBox(
       height: (rVM.currentWeekDayEndTime - rVM.currentWeekDayStartTime + 1) * oneHourHeight,
       child: Stack(
         children: [
@@ -43,7 +44,7 @@ class RoutineTimeline extends HookWidget {
                     ),
                   ),
                 ),
-                node: TimelineNode(
+                node: const TimelineNode(
                   indicatorPosition: 0.0,
                   indicator: DotIndicator(
                     size: 8,
