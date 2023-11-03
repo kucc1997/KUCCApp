@@ -10,7 +10,6 @@ class KUCCAppBar extends HookWidget {
   Widget build(BuildContext context) {
     var statusBarHeight = MediaQuery.of(context).viewPadding.top;
     return Container(
-      height: statusBarHeight + 58,
       width: double.infinity,
       decoration: BoxDecoration(
           color: Colors.white,
