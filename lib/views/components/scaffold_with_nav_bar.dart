@@ -31,11 +31,29 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
       Icon(Icons.person_outline, size: 30, color: Color(0xFF394078)),
     ];
     return Scaffold(
-        body: widget.navigationShell,
-        bottomNavigationBar: CustomNavBar(
-          navigationShell: widget.navigationShell,
-          labels: labels,
-          icons: icons,
-        ));
+      body: Stack(
+        children: [
+          widget.navigationShell,
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: CustomNavBar(
+              navigationShell: widget.navigationShell,
+              labels: labels,
+              icons: icons,
+            ),
+          ),
+        ],
+      ),
+    );
   }
+  // return Scaffold(
+  //   body: widget.navigationShell,
+  //   bottomNavigationBar: CustomNavBar(
+  //     navigationShell: widget.navigationShell,
+  //     labels: labels,
+  //     icons: icons,
+  //   ),
+  // );
 }
