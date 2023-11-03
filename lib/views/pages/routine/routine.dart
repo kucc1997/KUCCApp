@@ -15,69 +15,43 @@ import 'package:sticky_headers/sticky_headers.dart';
 import 'package:timelines/timelines.dart';
 
 class RoutineFacultyBatchButton extends HookWidget {
-  const RoutineFacultyBatchButton({super.key});
+  final void Function() onClick;
+
+  const RoutineFacultyBatchButton({super.key, required this.onClick});
 
   @override
   Widget build(BuildContext context) {
-    final controller = useAnimationController(duration: const Duration(milliseconds: 0));
+    final controller = useAnimationController(duration: const Duration(milliseconds: 80));
     final animation = useAnimation(controller);
-    final primaryColor = useState(Colors.white);
-    final textColor = useState(const Color(0xFF394078));
-    // Create an OverlayEntry variable to hold the dropdown widget
-    OverlayEntry? overlayEntry;
-    void showDropDown() {
-      final RenderBox renderBox = context.findRenderObject() as RenderBox;
-      final size = renderBox.size;
-      final offset = renderBox.localToGlobal(Offset(0.0, size.height));
+    final isButtonActive = useState(false);
+    final themeData = Theme.of(context);
 
-      overlayEntry = OverlayEntry(
-        builder: (context) {
-          return Positioned(
-            top: offset.dy,
-            width: size.width,
-            left: offset.dx,
-            child: Text("alsjdfsalfjasljflsjfsaljfaj"),
-          );
-        },
-      );
-
-      Overlay.of(context)!.insert(overlayEntry!);
+    void onTap() {
+      isButtonActive.value = !isButtonActive.value;
+      onClick();
+      if (isButtonActive.value) {
+        controller.forward();
+      } else {
+        controller.reverse();
+      }
     }
 
-    void hideDropdown() {
-      overlayEntry?.remove();
-      overlayEntry = null;
-    }
-
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
-        hideDropdown(); // Close the dropdown when there's an outside click
-      },
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16),
       child: Material(
         color: Colors.transparent,
-        elevation: 1,
         child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          onTap: () {
-            //showDropDown();
-            if (controller.isCompleted) {
-              primaryColor.value = Color(0xFF394078);
-              textColor.value = Colors.white;
-              controller.reverse();
-            } else {
-              textColor.value = Color(0xFF394078);
-              primaryColor.value = Colors.white;
-              controller.forward();
-            }
-          },
+          borderRadius: BorderRadius.circular(12),
+          onTap: onTap,
           child: Ink(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-              color: primaryColor.value,
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+              color: isButtonActive.value
+                  ? themeData.colorScheme.primary
+                  : themeData.colorScheme.onPrimary,
             ),
-            width: 300,
-            height: 60,
+            width: double.infinity,
+            height: 56,
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +59,11 @@ class RoutineFacultyBatchButton extends HookWidget {
                 Text(
                   "CS - 2021",
                   style: GoogleFonts.manrope(
-                      color: textColor.value, fontSize: 24, fontWeight: FontWeight.w600),
+                      color: isButtonActive.value
+                          ? themeData.colorScheme.onPrimary
+                          : themeData.colorScheme.primary,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600),
                 ),
                 AnimatedBuilder(
                   animation: controller,
@@ -95,7 +73,11 @@ class RoutineFacultyBatchButton extends HookWidget {
                       transform: Matrix4.identity()
                         ..setEntry(3, 2, 0.002) // Perspective effect
                         ..rotateX(animation * 3.14), // Rotate on the X-axis
-                      child: Icon(Icons.keyboard_arrow_up, size: 28, color: textColor.value),
+                      child: Icon(Icons.keyboard_arrow_down,
+                          size: 26,
+                          color: isButtonActive.value
+                              ? themeData.colorScheme.onPrimary
+                              : themeData.colorScheme.primary),
                     );
                   },
                 ),
@@ -111,7 +93,107 @@ class RoutineFacultyBatchButton extends HookWidget {
 class RoutineFacultyBatchInput extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(child: Column(children: [Text("alfjsalfjdsalfjdjlafjs")]));
+    final themeData = Theme.of(context);
+    final controller = useAnimationController(duration: const Duration(milliseconds: 80));
+    final animation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(controller);
+    final isButtonActive = useState(false);
+
+    void onClick() {
+      if (isButtonActive.value) {
+        controller.reverse();
+      } else {
+        controller.forward();
+      }
+      isButtonActive.value = !isButtonActive.value;
+    }
+
+    return Column(
+      children: [
+        RoutineFacultyBatchButton(
+          onClick: onClick,
+        ),
+        AnimatedBuilder(
+          animation: animation,
+          builder: (context, child) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: themeData.colorScheme.onPrimary,
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  ),
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Please choose your faculty",
+                              style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            Text("and semester to view class",
+                                style:
+                                    GoogleFonts.manrope(fontWeight: FontWeight.w500, fontSize: 16)),
+                            Text("routine",
+                                style:
+                                    GoogleFonts.manrope(fontWeight: FontWeight.w500, fontSize: 16)),
+                          ],
+                        ),
+                      ),
+                      Padding(padding: const EdgeInsets.all(16), child: KUCCAttacheDropDownMenu()),
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                          child: KUCCAttacheDropDownMenu()),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class KUCCAttacheDropDownMenu extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      elevation: 0,
+      child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          onTap: () {
+            //showDropDown();
+          },
+          child: Ink(
+            decoration: BoxDecoration(
+              border: Border.all(width: 1),
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
+            width: double.infinity,
+            height: 48,
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Choose your faculty",
+                    style: GoogleFonts.manrope(fontWeight: FontWeight.w500, fontSize: 16)),
+                const Icon(Icons.keyboard_arrow_down, size: 28),
+              ],
+            ),
+          )),
+    );
   }
 }
 
@@ -127,9 +209,8 @@ class Routine extends HookWidget {
       backgroundColor: Color(0xFFE2E4F3),
       body: Column(
         children: [
-          KUCCAppBar(),
+          const KUCCAppBar(),
           const Padding(padding: EdgeInsets.all(20)),
-          const RoutineFacultyBatchButton(),
           RoutineFacultyBatchInput(),
           Container(
             padding: const EdgeInsets.only(top: 16, bottom: 16),
