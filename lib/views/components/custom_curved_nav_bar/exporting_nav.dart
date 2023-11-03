@@ -39,7 +39,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
       height: 75.0,
       items: widget.icons,
       color: Colors.white,
-      buttonBackgroundColor: const Color(0xFF394078),
+      buttonBackgroundColor: Theme.of(context).primaryColor,
       backgroundColor: Colors.transparent,
       animationCurve: Curves.easeInOutCubicEmphasized,
       animationDuration: const Duration(milliseconds: 400),
