@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:kucc_app/views/components/scaffold_with_nav_bar.dart';
 import 'package:kucc_app/views/pages/home/home.dart';
+import 'package:kucc_app/views/pages/routine/routine.dart';
 import 'package:kucc_app/views/pages/signup_login/login_signup.dart';
 import 'package:kucc_app/views/pages/timeline/timeline.dart';
 

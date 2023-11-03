@@ -7,6 +7,7 @@ ThemeData kTheme() {
     primaryColor: Pallet.primaryColor,
     colorScheme: ColorScheme.fromSwatch().copyWith(
       primary: Pallet.primaryColor,
+      onPrimary: Pallet.onPrimary,
       secondary: Pallet.secondaryColor,
       background: Pallet.backgroundColor,
     ),
