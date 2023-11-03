@@ -16,7 +16,7 @@ GoRouter goRouter = GoRouter(routes: [
       routes: [
         StatefulShellRoute.indexedStack(
             builder: (context, state, navigationShell) {
-              return ScaffoldWithNavBar(navigationShell: navigationShell);
+              return ScaffoldWithBottomNavBar(navigationShell: navigationShell);
             },
             branches: [
               StatefulShellBranch(routes: [

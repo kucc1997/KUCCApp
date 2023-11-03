@@ -1,25 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kucc_app/viewmodels/bottom_nav_bar_viewmodel.dart';
 import 'package:kucc_app/views/components/custom_curved_nav_bar/exporting_nav.dart';
+import 'package:provider/provider.dart';
 
-class ScaffoldWithNavBar extends StatefulWidget {
-  /// Constructs an [ScaffoldWithNavBar].
-  const ScaffoldWithNavBar({
-    required this.navigationShell,
-    Key? key,
-  }) : super(key: key ?? const ValueKey<String>('ScaffoldWithNavBar'));
-
-  /// The navigation shell and container for the branch Navigators.
+class ScaffoldWithBottomNavBar extends HookWidget {
   final StatefulNavigationShell navigationShell;
 
-  @override
-  State<ScaffoldWithNavBar> createState() => _ScaffoldWithNavBarState();
-}
+  const ScaffoldWithBottomNavBar({
+    Key? key,
+    required this.navigationShell,
+  }) : super(key: key ?? const ValueKey<String>('ScaffoldWithBottomNavBar'));
 
-class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
   @override
   Widget build(BuildContext context) {
+    final controller = useAnimationController(duration: const Duration(milliseconds: 180));
+    final bnbVM = Provider.of<BottomNavBarViewModel>(context);
+
+    final animation = Tween<double>(
+      begin: 0,
+      end: -120,
+    ).animate(controller);
+
     const labels = ['Events', 'Home', 'Profile'];
     const icons = <Widget>[
       /// *[Icon]* are later modified in the [CurvedNavigationBar] class
@@ -30,30 +34,36 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
       Icon(CupertinoIcons.home, size: 28, color: Color(0xFF394078)),
       Icon(Icons.person_outline, size: 30, color: Color(0xFF394078)),
     ];
+
+    if (!bnbVM.displayBottomNavBar) {
+      controller.forward();
+    } else {
+      if (controller.isCompleted) {
+        controller.reverse();
+      }
+    }
+
     return Scaffold(
       body: Stack(
         children: [
-          widget.navigationShell,
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: CustomNavBar(
-              navigationShell: widget.navigationShell,
-              labels: labels,
-              icons: icons,
-            ),
+          navigationShell,
+          AnimatedBuilder(
+            animation: animation,
+            builder: (context, child) {
+              return Positioned(
+                bottom: animation.value,
+                left: 0,
+                right: 0,
+                child: CustomNavBar(
+                  navigationShell: navigationShell,
+                  labels: labels,
+                  icons: icons,
+                ),
+              );
+            },
           ),
         ],
       ),
     );
   }
-  // return Scaffold(
-  //   body: widget.navigationShell,
-  //   bottomNavigationBar: CustomNavBar(
-  //     navigationShell: widget.navigationShell,
-  //     labels: labels,
-  //     icons: icons,
-  //   ),
-  // );
 }
