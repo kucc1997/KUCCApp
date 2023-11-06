@@ -1,3 +1,4 @@
 //stings used
-var tProfileHeading = "Name";
-var tProfileSubheading = "Designation";
+const tProfileHeading = "Priyanshu Sharma";
+const tProfileSubheading = "Computer Engineering";
+const tEdit = "Edit Profile";
