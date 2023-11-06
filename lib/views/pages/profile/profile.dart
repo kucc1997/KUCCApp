@@ -33,20 +33,25 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(children: [
             Stack(
               children: [
-                SizedBox(
-                  width: 120,
-                  height: 120,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: const Image(image: AssetImage(kuccLogo)),
-                  ),
-                ),
                 if (_profilePic != null)
-                  Image.memory(
-                    _profilePic!,
-                    width: 120,
-                    height: 120,
+                  CircleAvatar(
+                    radius: 64,
+                    backgroundImage: MemoryImage(_profilePic!),
+                  )
+                else
+                  const CircleAvatar(
+                    radius: 64,
+                    backgroundImage: AssetImage(kuccLogo),
                   ),
+
+                // SizedBox(
+                //   width: 120,
+                //   height: 120,
+                //   child: ClipRRect(
+                //     borderRadius: BorderRadius.circular(100),
+                //     child: Image(image: MemoryImage(_profilePic!)),
+                //   ),
+                // ),
                 Positioned(
                   bottom: 0,
                   right: 0,
