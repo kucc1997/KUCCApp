@@ -22,7 +22,6 @@ class _ProfilePageState extends State<ProfilePage> {
     'Certificates',
     'Saved Events',
     'Get Membership',
-    
   ];
 
   late ProfilePageViewModel viewModel;
@@ -80,7 +79,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     return Text(
                       '${viewModel.fieldofStudy}',
                       style: Theme.of(context).textTheme.bodySmall,
-                      
                     );
                   },
                 ),
@@ -136,13 +134,40 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 30),
             const Divider(),
-            const SizedBox(
-              height: 10,
-            ),
+
             //Menu
-            ProfileMenuWidget(),
-            ProfileMenuWidget(),
-            ProfileMenuWidget(),
+            ProfileMenuWidget(
+              title: "Certificates",
+              icon: LineAwesomeIcons.certificate,
+              onPress: () {},
+            ),
+
+            ProfileMenuWidget(
+              title: "Get Membership",
+              icon: LineAwesomeIcons.address_card_1,
+              onPress: () {},
+            ),
+
+            ProfileMenuWidget(
+              title: "Saved Events",
+              icon: LineAwesomeIcons.bookmark_1,
+              onPress: () {},
+            ),
+
+            ProfileMenuWidget(
+              title: "Information",
+              icon: LineAwesomeIcons.info_circle,
+              onPress: () {},
+            ),
+
+            ProfileMenuWidget(
+              title: "LogOut",
+              icon: LineAwesomeIcons.alternate_sign_out,
+              onPress: () {},
+            ),
+            SizedBox(
+              height: 60,
+            )
           ]),
         ),
       ),
@@ -152,43 +177,63 @@ class _ProfilePageState extends State<ProfilePage> {
 
 class ProfileMenuWidget extends StatelessWidget {
   const ProfileMenuWidget({
-    super.key,
-  });
+    Key? key,
+    required this.title,
+    required this.icon,
+    required this.onPress,
+    this.endIcon = true,
+    this.textColor,
+  }) : super(key: key);
+
+  final String title;
+  final IconData icon;
+  final VoidCallback onPress;
+  final bool endIcon;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Container(
-        width: 30,
-        height: 30,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: Colors.grey.withOpacity(0.2),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(40.0, 0, 40.0, 5),
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.black, width: 1),
+          borderRadius: BorderRadius.circular(13.725),
         ),
-        child: const Icon(
-          LineAwesomeIcons.certificate,
-          color: Colors.black,
+        onTap: onPress,
+        leading: Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            color: Colors.grey.withOpacity(0.2),
+          ),
+          child: Icon(
+            icon,
+            color: Colors.black,
+          ),
         ),
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.bodySmall,
+          textAlign: TextAlign.center,
+        ),
+        trailing: endIcon
+            ? Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: Colors.grey.withOpacity(0.2),
+                ),
+                child: const Icon(
+                  LineAwesomeIcons.angle_right,
+                  size: 18.0,
+                  color: Colors.grey,
+                ),
+              )
+            : null,
       ),
-      
-      title: Text(
-        "Certificates",
-        style: Theme.of(context).textTheme.bodySmall,
-      ),
-      trailing: Container(
-        width: 30,
-        height: 30,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: Colors.grey.withOpacity(0.2),
-        ),
-        child: const Icon(
-          LineAwesomeIcons.angle_right,
-          size: 18.0,
-          color: Colors.grey,
-        ),
-      ),
-      
     );
   }
 }
