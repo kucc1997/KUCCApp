@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:kucc_app/constants/image_path.dart';
+import 'package:kucc_app/constants/constants.dart';
 import 'package:kucc_app/constants/sizes.dart';
 import 'package:kucc_app/constants/text_strings.dart';
-import 'package:kucc_app/views/pages/profile/update_profile.dart';
+import 'package:kucc_app/viewmodels/profile_page_viewmodel.dart';
+import 'package:kucc_app/views/components/app_bar.dart';
+import 'package:kucc_app/views/pages/profile/components/image_uploader.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key? key}) : super(key: key);
@@ -16,74 +18,106 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   Uint8List? _profilePic;
-  void selectImage() async {
-    Uint8List img = await pickImage(ImageSource.gallery);
-    setState(() {
-      _profilePic = img;
-    });
+  final List<String> items = [
+    'Certificates',
+    'Saved Events',
+    'Get Membership',
+    
+  ];
+
+  late ProfilePageViewModel viewModel;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    viewModel = Provider.of<ProfilePageViewModel>(context);
   }
 
-  final Category = ["Certificates", "Saved Events", "Get Membership"];
   @override
+  // Access the view model from the context
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(tSize),
           child: Column(children: [
-            Stack(
-              children: [
-                if (_profilePic != null)
-                  CircleAvatar(
-                    radius: 64,
-                    backgroundImage: MemoryImage(_profilePic!),
-                  )
-                else
-                  const CircleAvatar(
-                    radius: 64,
-                    backgroundImage: AssetImage(kuccLogo),
-                  ),
-
-                // SizedBox(
-                //   width: 120,
-                //   height: 120,
-                //   child: ClipRRect(
-                //     borderRadius: BorderRadius.circular(100),
-                //     child: Image(image: MemoryImage(_profilePic!)),
-                //   ),
-                // ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.yellow,
-                      ),
-                      child: IconButton(
-                        icon: const Icon(
-                          LineAwesomeIcons.alternate_pencil,
-                          color: Colors.black,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          selectImage();
-                        },
-                      )),
-                )
-              ],
-            ),
+            KUCCAppBar(),
             const SizedBox(
               height: 10,
             ),
-            Text(
-              tProfileHeading,
-              style: Theme.of(context).textTheme.headlineSmall,
+            ImageUploader(
+              onImageSelected: (image) {
+                setState(() {
+                  _profilePic = image;
+                });
+              },
             ),
-            Text(tProfileSubheading,
-                style: Theme.of(context).textTheme.bodySmall),
+
+            const SizedBox(
+              height: 20,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Consumer<ProfilePageViewModel>(
+                  builder: (context, viewModel, child) {
+                    return Text(
+                      '${viewModel.userName}',
+                      style: TextStyle(
+                          fontSize: FontSizes.heading,
+                          fontFamily: Fonts.heading,
+                          color: Palette.primaryColor,
+                          fontWeight: FontWeights.bold),
+                    );
+                  },
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Consumer<ProfilePageViewModel>(
+                  builder: (context, viewModel, child) {
+                    return Text(
+                      '${viewModel.fieldofStudy}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                      
+                    );
+                  },
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(" Year ",
+                        style: Theme.of(context).textTheme.bodySmall),
+                    Consumer<ProfilePageViewModel>(
+                      builder: (context, viewModel, child) {
+                        return Text(
+                          '${viewModel.academicYear}',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        );
+                      },
+                    ),
+                    Text(
+                      " Semester ",
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    Consumer<ProfilePageViewModel>(
+                      builder: (context, viewModel, child) {
+                        return Text(
+                          '${viewModel.academicSemester}',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -92,12 +126,12 @@ class _ProfilePageState extends State<ProfilePage> {
               child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.amber,
+                      backgroundColor: Colors.blue,
                       side: BorderSide.none,
                       shape: const StadiumBorder()),
                   child: const Text(
                     tEdit,
-                    style: TextStyle(color: Colors.amber),
+                    style: TextStyle(color: Colors.white),
                   )),
             ),
             const SizedBox(height: 30),
@@ -136,9 +170,10 @@ class ProfileMenuWidget extends StatelessWidget {
           color: Colors.black,
         ),
       ),
+      
       title: Text(
         "Certificates",
-        style: Theme.of(context).textTheme.bodyMedium,
+        style: Theme.of(context).textTheme.bodySmall,
       ),
       trailing: Container(
         width: 30,
@@ -153,6 +188,7 @@ class ProfileMenuWidget extends StatelessWidget {
           color: Colors.grey,
         ),
       ),
+      
     );
   }
 }
