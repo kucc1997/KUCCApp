@@ -4,41 +4,48 @@ import 'constants.dart';
 
 ThemeData kTheme() {
   return ThemeData(
-    primaryColor: Pallet.primaryColor,
+    primaryColor: Palette.primaryColor,
     colorScheme: ColorScheme.fromSwatch().copyWith(
-      primary: Pallet.primaryColor,
-      onPrimary: Pallet.onPrimary,
-      secondary: Pallet.secondaryColor,
-      background: Pallet.backgroundColor,
+      primary: Palette.primaryColor,
+      onPrimary: Palette.onPrimary,
+      secondary: Palette.secondaryColor,
+      background: Palette.backgroundColor,
     ),
-    textTheme: const TextTheme(
-      displayLarge: TextStyle(
+    textTheme: TextTheme(
+      displayLarge: const TextStyle(
         fontFamily: Fonts.heading,
         fontSize: FontSizes.heading,
         fontWeight: FontWeights.bold,
-        color: Pallet.textColor,
+        color: Palette.textColor,
       ),
-      displayMedium: TextStyle(
+      displayMedium: const TextStyle(
         fontFamily: Fonts.heading,
         fontSize: FontSizes.subHeading,
         fontWeight: FontWeights.bold,
-        color: Pallet.textColor,
+        color: Palette.textColor,
       ),
-      bodyLarge: TextStyle(
+      bodyLarge: const TextStyle(
         fontFamily: Fonts.body,
         fontSize: FontSizes.body,
         fontWeight: FontWeights.regular,
-        color: Pallet.textColor,
+        color: Palette.textColor,
       ),
-      bodyMedium: TextStyle(
+      bodyMedium: const TextStyle(
         fontFamily: Fonts.body,
         fontSize: FontSizes.body,
         fontWeight: FontWeights.regular,
-        color: Pallet.textColor,
+        color: Palette.textColor,
       ),
+      bodySmall: TextStyle(
+          fontSize: FontSizes.designation,
+          fontFamily: Fonts.designation,
+          color: Color(0xFF394078).withOpacity(0.75),
+          fontWeight: FontWeights.light,
+          letterSpacing: 1,
+          wordSpacing: 0.5),
     ),
     buttonTheme: ButtonThemeData(
-      buttonColor: Pallet.primaryColor,
+      buttonColor: Palette.primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(BorderRadii.medium),
       ),

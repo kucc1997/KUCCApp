@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Pallet {
+class Palette {
   static const Color textColor = Color(0xFF000000);
   static const Color primaryColor = Color(0xFF394078);
   static const Color onPrimary = Color(0xFFFFFFFF);
@@ -15,11 +15,13 @@ class Fonts {
   static const String heading = 'Manrope';
   static const String subHeading = 'Manrope';
   static const String body = 'Poppins';
+  static const String designation = 'Inter';
 }
 
 class FontSizes {
   static const double heading = 24;
   static const double subHeading = 16;
+  static const double designation = 20;
   static const double body = 14;
 }
 

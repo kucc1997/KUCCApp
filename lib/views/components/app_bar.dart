@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:kucc_app/views/pages/profile/profile.dart';
 import 'package:kucc_app/views/pages/signup_login/components/logo.dart';
 
 //color: Color(0xFF46406B),
@@ -14,7 +15,8 @@ class KUCCAppBar extends HookWidget {
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-              bottomLeft: const Radius.circular(18), bottomRight: const Radius.circular(18)),
+              bottomLeft: const Radius.circular(18),
+              bottomRight: const Radius.circular(18)),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.2),
@@ -22,9 +24,10 @@ class KUCCAppBar extends HookWidget {
               blurRadius: 8,
             )
           ]),
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [const KUCCAppBarProfileButton(), const KUCCAppBarProfileButton()]),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        const KUCCAppBarProfileButton(),
+        const KUCCAppBarProfileButton()
+      ]),
     );
   }
 }
@@ -42,7 +45,10 @@ class KUCCAppBarProfileButton extends HookWidget {
           //color : Colors.white,
           customBorder: const CircleBorder(),
           onTap: () {
-            debugPrint("SUPPPPPPPPPP");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfilePage()),
+            );
           },
           child: const Padding(
             padding: EdgeInsets.all(14.0),
