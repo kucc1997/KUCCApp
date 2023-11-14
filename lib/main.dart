@@ -1,5 +1,9 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:kucc_app/constants/theme.dart';
+import 'package:kucc_app/core/push_notification/service/firebase_api.dart';
+import 'package:kucc_app/core/push_notification/service/notification_api.dart';
+import 'package:kucc_app/firebase_options.dart';
 import 'package:kucc_app/routes.dart';
 import 'package:kucc_app/viewmodels/bottom_nav_bar_viewmodel.dart';
 import 'package:kucc_app/viewmodels/eventdetail_viewmodel.dart';
@@ -7,10 +11,17 @@ import 'package:kucc_app/viewmodels/routine_viewmodel.dart';
 import 'package:kucc_app/viewmodels/signup_login_viewmodel.dart';
 import 'package:kucc_app/viewmodels/timeline_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 const appName = "KUCC";
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  FirebaseApi.initNotificationFirebase();
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => SignupLoginViewModel()),

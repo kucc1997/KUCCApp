@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "647804266043",
+    "project_id": "push-notification-5bdf8",
+    "storage_bucket": "push-notification-5bdf8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647804266043:android:9471cae3b528c5e7255e1e",
+        "android_client_info": {
+          "package_name": "com.example.kucc_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3HrHaAjyhCKcFMEQIvrg5VjG6WnsRnek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647804266043:android:3f01a1dd2e0d8a40255e1e",
+        "android_client_info": {
+          "package_name": "com.example.schoolmanagement"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3HrHaAjyhCKcFMEQIvrg5VjG6WnsRnek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
