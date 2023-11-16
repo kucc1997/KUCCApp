@@ -77,7 +77,7 @@ class FirebaseApi {
     );
 
     firebaseInstance
-        .collection('notificationUsers')
+        .collection('notificationUsers-kucc_app')
         .doc(notificationUserModel.userId)
         .set(notificationUser.toJson())
         .then((value) => {
